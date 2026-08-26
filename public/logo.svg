@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 96" role="img" aria-labelledby="title desc">
+  <title id="title">Plaza San Martín Córdoba</title>
+  <desc id="desc">Símbolo inspirado en el trazado de la plaza y su monumento central.</desc>
+  <rect width="96" height="96" rx="20" fill="#173c33"/>
+  <path d="M48 12v72M12 48h72" stroke="#e9d8aa" stroke-width="7" stroke-linecap="round"/>
+  <path d="M24 24l48 48M72 24L24 72" stroke="#e9d8aa" stroke-width="3" stroke-linecap="round" opacity=".72"/>
+  <circle cx="48" cy="48" r="13" fill="#a56a42" stroke="#f5edda" stroke-width="3"/>
+  <path d="M43 52c3-7 8-11 14-12l7 3-5 4 3 6-8-2-4 8h-7z" fill="#f5edda"/>
+  <text x="118" y="43" font-family="Georgia, 'Times New Roman', serif" font-size="25" font-weight="700" fill="#173c33">Plaza San Martín</text>
+  <text x="119" y="68" font-family="Arial, Helvetica, sans-serif" font-size="14" letter-spacing="3.5" fill="#6f5948">CÓRDOBA</text>
+</svg>

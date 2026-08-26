@@ -1,0 +1,106 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout
+  title="Configuración de cookies | Plaza San Martín Córdoba"
+  description="Administrá cookies y preferencias: funciones necesarias, Google Analytics, servicios funcionales como Google Maps y ausencia de publicidad personalizada."
+>
+  <header class="legal-hero">
+    <div class="shell">
+      <span class="eyebrow">Control de privacidad</span>
+      <h1>Configuración de cookies</h1>
+      <p>Las funciones opcionales permanecen desactivadas hasta que decidas activarlas. Podés cambiar de opinión cuando quieras.</p>
+    </div>
+  </header>
+  <section class="legal">
+    <div class="shell legal-layout">
+      <nav class="legal-nav" aria-label="Índice de cookies">
+        <a href="#gestionar">Gestionar</a><a href="#necesarias">Necesarias</a><a href="#analiticas">Analíticas</a><a href="#preferencias">Preferencias</a><a href="#marketing">Marketing</a><a href="#terceros">Terceros</a>
+      </nav>
+      <div class="legal-content">
+        <span class="legal-date">Última actualización: agosto de 2026</span>
+        <section id="gestionar">
+          <h2>Gestioná tus preferencias</h2>
+          <p>Este proyecto no muestra un cuadro emergente de consentimiento. Las preferencias se administran aquí, en una página independiente y accesible desde el pie de todo el sitio.</p>
+          <div class="consent-panel" data-consent-panel>
+            <div class="consent-row">
+              <div><h3>Necesarias</h3><p>Funciones técnicas esenciales para servir el sitio y proteger su funcionamiento. No pueden desactivarse desde este panel.</p></div>
+              <label class="switch" aria-label="Cookies necesarias siempre activas"><input type="checkbox" checked disabled /><span></span></label>
+            </div>
+            <div class="consent-row">
+              <div><h3>Analíticas · Google Analytics</h3><p>Ayudan a comprender de forma agregada qué páginas se consultan y cómo mejorar el contenido. Desactivadas por defecto.</p></div>
+              <label class="switch"><input type="checkbox" data-consent="analytics" /><span></span></label>
+            </div>
+            <div class="consent-row">
+              <div><h3>Preferencias y funciones externas</h3><p>Permiten recordar opciones funcionales, como haber autorizado la carga del mapa interactivo de Google.</p></div>
+              <label class="switch"><input type="checkbox" data-consent="preferences" /><span></span></label>
+            </div>
+            <div class="consent-row">
+              <div><h3>Marketing</h3><p>Este sitio no utiliza publicidad personalizada ni tecnologías de marketing. La categoría permanece desactivada.</p></div>
+              <label class="switch" aria-label="Marketing desactivado"><input type="checkbox" data-consent="marketing" disabled /><span></span></label>
+            </div>
+            <div class="consent-actions">
+              <button class="consent-save" type="button" data-save-consent>Guardar preferencias</button>
+              <button class="consent-reject" type="button" data-reject-consent>Rechazar opcionales</button>
+            </div>
+            <div class="consent-status" role="status" aria-live="polite" data-consent-status></div>
+          </div>
+        </section>
+        <section id="necesarias">
+          <h2>Cookies y funciones necesarias</h2>
+          <p>Son las imprescindibles para entregar contenido, aplicar medidas de seguridad o mantener funciones básicas. No las utilizamos para publicidad. Determinados controles pueden depender de infraestructura de alojamiento y de su gestión técnica.</p>
+        </section>
+        <section id="analiticas">
+          <h2>Analíticas</h2>
+          <p>Google Analytics 4 está integrado de forma condicionada: el navegador no solicita su script hasta que activás “Analíticas”. Si la opción permanece desactivada, esta integración no se carga desde nuestro código.</p>
+          <p>Podés retirar el permiso en cualquier momento desde esta misma página. La información ya tratada por un tercero antes del retiro se rige por sus propios períodos de conservación y obligaciones legales.</p>
+        </section>
+        <section id="preferencias">
+          <h2>Preferencias</h2>
+          <p>Usamos almacenamiento local para recordar tus decisiones. Si habilitás la función de mapa, Google Maps puede utilizar cookies o tecnologías similares una vez cargado el contenido externo.</p>
+        </section>
+        <section id="marketing">
+          <h2>Marketing</h2>
+          <p>No servimos anuncios personalizados ni participamos en redes de remarketing desde este sitio. Por esa razón, la opción de marketing está desactivada y no puede activarse en la configuración actual.</p>
+        </section>
+        <section id="terceros">
+          <h2>Servicios de terceros</h2>
+          <p>Google y otros proveedores externos aplican sus propias políticas cuando sus recursos se cargan. Para más contexto sobre Google Maps, Google Analytics y Wikimedia Commons, consultá nuestra <a href="/privacidad/">Política de privacidad</a>.</p>
+          <p>También podés borrar el almacenamiento, las cookies y los permisos desde la configuración de tu navegador. Hacerlo puede restablecer las decisiones guardadas en esta página.</p>
+        </section>
+      </div>
+    </div>
+  </section>
+  <script is:inline>
+    (() => {
+      const panel = document.querySelector('[data-consent-panel]');
+      if (!panel || !window.psmConsent) return;
+      const inputs = {
+        analytics: panel.querySelector('[data-consent="analytics"]'),
+        preferences: panel.querySelector('[data-consent="preferences"]'),
+        marketing: panel.querySelector('[data-consent="marketing"]')
+      };
+      const status = panel.querySelector('[data-consent-status]');
+      const fill = () => {
+        const current = window.psmConsent.read();
+        inputs.analytics.checked = Boolean(current.analytics);
+        inputs.preferences.checked = Boolean(current.preferences);
+        inputs.marketing.checked = false;
+      };
+      fill();
+      panel.querySelector('[data-save-consent]')?.addEventListener('click', () => {
+        window.psmConsent.save({
+          analytics: inputs.analytics.checked,
+          preferences: inputs.preferences.checked,
+          marketing: false
+        });
+        if (status) status.textContent = 'Preferencias guardadas.';
+      });
+      panel.querySelector('[data-reject-consent]')?.addEventListener('click', () => {
+        window.psmConsent.save({ analytics: false, preferences: false, marketing: false });
+        fill();
+        if (status) status.textContent = 'Se rechazaron todas las opciones no necesarias.';
+      });
+    })();
+  </script>
+</BaseLayout>
