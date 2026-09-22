@@ -46,8 +46,12 @@ if (existsSync(workspace)) {
 
 const dist = join(root, 'dist');
 if (existsSync(dist)) {
-  const site = (process.env.SITE_URL || '').trim().replace(/\/$/, '');
-  const sitemapIndex = join(dist, 'sitemap-index.xml');
+// El sitio ahora tiene un dominio de producción por defecto en astro.config, por lo que
+// el sitemap se genera siempre (sin SITE_URL) con URLs https correctas. El control sigue
+// siendo útil: falla si las URLs quedan fuera del host esperado.
+const DEFAULT_SITE = 'https://plazasanmartinarg.com';
+const site = (process.env.SITE_URL || '').trim().replace(/\/$/, '') || DEFAULT_SITE;
+const sitemapIndex = join(dist, 'sitemap-index.xml');
   const sitemap = join(dist, 'sitemap-0.xml');
   const maps = [sitemapIndex, sitemap].filter(existsSync);
   if (!site && maps.length) {
