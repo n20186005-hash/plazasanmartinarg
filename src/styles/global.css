@@ -308,6 +308,12 @@ details.faq p { margin: -5px 0 24px; color: var(--muted); max-width: 760px; }
   .weather-days { grid-template-columns: repeat(3, 1fr); }
 }
 
+/* Nav compacta en portátiles angostos para que quepan los accesos a subpáginas. */
+@media (max-width: 1120px) {
+  .main-nav { gap: 14px; }
+  .main-nav a { font-size: 13px; }
+}
+
 @media (max-width: 980px) {
   .main-nav { display: none; }
   .header-cta { margin-left: auto; }
