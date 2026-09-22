@@ -1,0 +1,123 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import WeatherSection from '../components/WeatherSection.astro';
+import { SITE_NAME } from '../data/site';
+
+const base = Astro.site ? Astro.site.href.replace(/\/$/, '') : 'https://plazasanmartinarg.com';
+const here = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : Astro.url.pathname;
+
+const faq = [
+  {
+    q: '¿Cuál es la mejor época para visitar Plaza San Martín?',
+    a: 'Otoño y primavera suelen ser las estaciones más cómodas para caminar el casco histórico: temperaturas amables y buena luz. En verano conviene salir temprano y aprovechar la sombra; en invierno, el mediodía es el momento más templado.'
+  },
+  {
+    q: '¿Hace mucho frío en invierno en Córdoba?',
+    a: 'Los días de invierno suelen ser soleados pero frescos, con noches frías y baja humedad. El mediodía y las primeras horas de la tarde son los momentos más templados para estar al aire libre; conviene una campera abrigada y, si hay viento, una bufanda.'
+  },
+  {
+    q: '¿Llueve mucho en Córdoba?',
+    a: 'El verano es la estación más húmeda, con tormentas de tarde ocasionales. El resto del año la lluvia es menor. El módulo de clima de esta página muestra la probabilidad de lluvia del día para que puedas planificar.'
+  },
+  {
+    q: '¿Qué ropa llevar para visitar la plaza?',
+    a: 'Por la amplitud térmica de Córdoba, una capa intermedia suele bastar: mangas cortas para el día y algo abrigado para la tarde. En verano, sombrero, protector solar y agua; en primavera, paraguas por lluvias aisladas.'
+  },
+  {
+    q: '¿Puedo ver el clima en vivo de la plaza?',
+    a: 'Sí. El bloque de clima de esta página muestra la condición actual y el pronóstico a 7 días para las coordenadas de la plaza. Los valores se actualizan desde una fuente meteorológica y son tendencias, no una promesa del día exacto.'
+  }
+];
+
+const breadcrumbJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Inicio', item: base + '/' },
+    { '@type': 'ListItem', position: 2, name: 'Clima de Plaza San Martín', item: here }
+  ]
+};
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faq.map((item) => ({
+    '@type': 'Question',
+    name: item.q,
+    acceptedAnswer: { '@type': 'Answer', text: item.a }
+  }))
+};
+---
+
+<BaseLayout
+  title="Clima en Plaza San Martín Córdoba: pronóstico y mejor época — Guía de visita"
+  description="Clima en Plaza San Martín, Córdoba: pronóstico en vivo, mejor época para visitar, estaciones y qué llevar según la amplitud térmica local."
+  structuredData={[breadcrumbJsonLd, faqJsonLd]}
+>
+  <div class="shell">
+    <nav class="breadcrumb" aria-label="Ruta de navegación">
+      <ol>
+        <li><a href="/">Inicio</a></li>
+        <li>Clima</li>
+      </ol>
+    </nav>
+
+    <header class="subpage-hero">
+      <span class="eyebrow">Clima y temporada</span>
+      <h1>Clima en Plaza San Martín (Córdoba)</h1>
+      <p class="lede">Córdoba tiene marcada amplitud térmica: días cálidos y noches frescas, veranos húmedos con tormentas de tarde. Acá tenés el pronóstico en vivo y la lógica de cada estación para planificar la visita.</p>
+    </header>
+  </div>
+
+  <section class="section">
+    <div class="shell">
+      <div class="section-head">
+        <div><span class="section-kicker">Por estación</span><h2>Estrategia de visita según el clima</h2></div>
+        <p class="section-intro">Los valores son tendencias típicas, no pronósticos; confirmá el clima del día en el módulo de abajo.</p>
+      </div>
+      <div class="table-wrap">
+        <table class="season-table">
+          <thead>
+            <tr><th>Estación</th><th>Qué esperar</th><th>Recomendación</th><th>Qué llevar</th></tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row">Verano</th><td>Tardes cálidas, alta humedad y tormentas de tarde. Mucha luz.</td><td>Salidas temprano; aprovechá la sombra de las arboledas y espacios interiores cercanos en la hora central.</td><td>Sombrero, protector solar, agua y ropa ligera.</td></tr>
+            <tr><th scope="row">Otoño</th><td>Temperaturas amables y buena luz. Menos lluvia que en verano.</td><td>Una de las mejores épocas para caminar el casco histórico sin prisa.</td><td>Una prenda liviana para la tarde y calzado cómodo.</td></tr>
+            <tr><th scope="row">Invierno</th><td>Días soleados pero frescos; noches frías. Baja humedad.</td><td>El mediodía y las primeras horas de la tarde son los momentos más templados para estar al aire libre.</td><td>Campera abrigada y, si hace viento, una bufanda.</td></tr>
+            <tr><th scope="row">Primavera</th><td>Clima variable y agradable; floración en las arboledas.</td><td>Excelente para fotos de la vegetación y recorridos largos a pie.</td><td>Capa intermedia y paraguas por lluvias aisladas.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <WeatherSection />
+
+  <section id="preguntas" class="section section-sand">
+    <div class="shell">
+      <div class="section-head">
+        <div><span class="section-kicker">Preguntas frecuentes</span><h2>Clima en pocas preguntas</h2></div>
+        <p class="section-intro">Respuestas breves sobre la mejor época, el frío, la lluvia y qué llevar.</p>
+      </div>
+      <div class="faq-list">
+        {faq.map((item) => (
+          <details class="faq">
+            <summary>{item.q}</summary>
+            <p>{item.a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="related">
+    <div class="shell">
+      <h2 class="block-title">Seguir explorando</h2>
+      <div class="related-grid">
+        <a class="related-card" href="/historia/"><span>Historia</span><strong>Desde 1577 hasta hoy</strong></a>
+        <a class="related-card" href="/ubicacion/"><span>Ubicación</span><strong>Dónde está y cómo llegar</strong></a>
+        <a class="related-card" href="/"><span>Inicio</span><strong>Guía completa de visita</strong></a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

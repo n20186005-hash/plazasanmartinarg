@@ -1,8 +1,25 @@
+# Dependencias y artefactos de build (no se suben al repositorio ni al deploy)
 node_modules/
 dist/
 .astro/
 .wrangler/
+.dev.vars
+
+# Entorno y secretos
 .env
 .env.*
 !.env.example
+
+# Cachés y logs temporales
+*.log
+node_modules/.cache/
+
+# Sistema
 .DS_Store
+
+# Nota de despliegue (Cloudflare Workers, manual):
+#   - `wrangler deploy` sirve los archivos estáticos desde `./dist` (assets)
+#     y el Worker desde `src/worker.ts` (main). No se sube el resto del
+#     repositorio (src/, scripts/, documentos .md) al usar este proyecto.
+#   - Los archivos aquí ignorados son locales; el bundle de producción es
+#     únicamente `dist/` + el código del Worker.

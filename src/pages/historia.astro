@@ -1,0 +1,138 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE_NAME } from '../data/site';
+
+const heroImage = 'https://upload.wikimedia.org/wikipedia/commons/b/b1/Monumento_a_Jos%C3%A9_de_San_Mart%C3%ADn_C%C3%B3rdoba_2011-12-22.jpg';
+const cathedralImage = 'https://commons.wikimedia.org/wiki/Special:FilePath/2011.10.19.191927%20Plaza%20San%20Mart%C3%ADn%20Catedral%20C%C3%B3rdoba%20Argentina.jpg?width=1600';
+
+const base = Astro.site ? Astro.site.href.replace(/\/$/, '') : 'https://plazasanmartinarg.com';
+const here = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : Astro.url.pathname;
+
+const faq = [
+  {
+    q: '¿Cuándo se fundó la Plaza San Martín de Córdoba?',
+    a: 'El espacio se reservó como Plaza Mayor en 1577, cuando se organizó el damero fundacional de Córdoba en unas setenta manzanas. Por eso su trazado es contemporáneo al de la propia ciudad.'
+  },
+  {
+    q: '¿Por qué se llama Plaza San Martín?',
+    a: 'El nombre actual se consolidó con la inauguración del monumento ecuestre al General José de San Martín el 8 de julio de 1916. Antes funcionó durante siglos como Plaza Mayor y luego como plaza del Cabildo.'
+  },
+  {
+    q: '¿Qué es el Kilómetro Cero de Córdoba en la plaza?',
+    a: 'Desde 1937 un monolito sobre el borde de calle Buenos Aires marca el Kilómetro Cero, una referencia histórica para la numeración y la red vial provincial. No es el centro geográfico de la ciudad, sino un hito de medición vial.'
+  },
+  {
+    q: '¿Quién diseñó el paseo ajardinado que se ve hoy?',
+    a: 'A comienzos del siglo XX el paisajista Carlos Thays intervino el espacio con senderos y especies como tipas, lapachos y magnolias. Las fuentes de mármol de Carrara, vinculadas al trabajo de José Allio, se sumaron en 1876.'
+  },
+  {
+    q: '¿La plaza fue siempre un jardín?',
+    a: 'No. En la etapa colonial era una explanada más dura y abierta: mercado, llegada de carretas, procesiones y actos oficiales. La transformación en paseo arbolado ocurrió de forma gradual, sobre todo en los siglos XIX y XX.'
+  }
+];
+
+const breadcrumbJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Inicio', item: base + '/' },
+    { '@type': 'ListItem', position: 2, name: 'Historia de Plaza San Martín', item: here }
+  ]
+};
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faq.map((item) => ({
+    '@type': 'Question',
+    name: item.q,
+    acceptedAnswer: { '@type': 'Answer', text: item.a }
+  }))
+};
+---
+
+<BaseLayout
+  title="Historia de Plaza San Martín (Córdoba): desde 1577 — Guía de visita"
+  description="La historia de Plaza San Martín en Córdoba: del Plaza Mayor de 1577 al monumento a San Martín de 1916, el Kilómetro Cero y el paseo de Carlos Thays."
+  image={heroImage}
+  structuredData={[breadcrumbJsonLd, faqJsonLd]}
+>
+  <div class="shell">
+    <nav class="breadcrumb" aria-label="Ruta de navegación">
+      <ol>
+        <li><a href="/">Inicio</a></li>
+        <li>Historia</li>
+      </ol>
+    </nav>
+
+    <header class="subpage-hero">
+      <span class="eyebrow">Historia urbana</span>
+      <h1>Historia de Plaza San Martín (Córdoba)</h1>
+      <p class="lede">Casi cuatro siglos y medio de ciudad se leen en un solo cuadro: del damero colonial al paseo arbolado, del mercado fundacional al centro cívico que preside el monumento a San Martín.</p>
+    </header>
+  </div>
+
+  <section class="section">
+    <div class="shell">
+      <div class="section-head">
+        <div><span class="section-kicker">Del trazado fundacional al paseo cívico</span><h2>Una plaza que explica Córdoba</h2></div>
+        <p class="section-intro">No es solo un jardín con una estatua. Plaza San Martín permite recorrer la evolución del poder, la fe y la vida pública de la ciudad a través de su geometría y sus fachadas.</p>
+      </div>
+
+      <div class="story-grid">
+        <div class="story-copy">
+          <p>En 1577, cuando el trazado urbano de Córdoba se organizó en un damero de unas setenta manzanas, el espacio que hoy ocupa la Plaza San Martín quedó reservado como <strong>Plaza Mayor</strong>. Frente a ella se asignaron los solares del Cabildo y de la Iglesia Mayor, una decisión que fijó el núcleo político, religioso y social de la ciudad.</p>
+          <p>Durante la etapa colonial la plaza era mucho más dura y abierta que el jardín actual. Funcionaba como mercado, lugar de llegada de carretas, escenario de procesiones, fiestas públicas y actos oficiales. Hacia fines del siglo XVIII, durante la gestión del Marqués de Sobremonte, comenzaron mejoras de iluminación y abastecimiento de agua.</p>
+          <blockquote>Mirar la plaza es mirar el plano fundador de Córdoba: el vacío central organiza los poderes, las calles y la vida pública.</blockquote>
+          <p>En el siglo XIX el lugar se transformó gradualmente en paseo ajardinado. En 1876 se instalaron fuentes de mármol de Carrara vinculadas al trabajo de José Allio. A comienzos del siglo XX el paisajista Carlos Thays intervino el espacio con una composición más estructurada y especies como tipas, lapachos y magnolias.</p>
+          <p>El 8 de julio de 1916 se inauguró el monumento ecuestre al General José de San Martín. La obra consolidó el nombre actual de la plaza y reorganizó su lectura simbólica. Desde 1937, además, un monolito sobre el borde de calle Buenos Aires identifica el <strong>Kilómetro Cero</strong>, referencia histórica para la red vial provincial y la numeración urbana.</p>
+        </div>
+        <figure class="photo-card story-media">
+          <img src={cathedralImage} alt="Catedral de Córdoba vista desde el entorno de Plaza San Martín al anochecer" loading="lazy" />
+          <figcaption>Vista de la plaza y la Catedral. Fotografía de Hermann Luyken, disponible en <a href="https://commons.wikimedia.org/wiki/File:2011.10.19.191927_Plaza_San_Mart%C3%ADn_Catedral_C%C3%B3rdoba_Argentina.jpg" rel="noreferrer">Wikimedia Commons</a> bajo dedicación CC0.</figcaption>
+        </figure>
+      </div>
+
+      <div class="timeline" aria-label="Cronología de la plaza">
+        <article class="timeline-item"><time>1577</time><h3>Plaza Mayor</h3><p>El trazado del damero fija el espacio central y los solares institucionales de su perímetro.</p></article>
+        <article class="timeline-item"><time>1786</time><h3>Primeras mejoras</h3><p>Se documentan intervenciones de iluminación y una fuente durante la administración de Sobremonte.</p></article>
+        <article class="timeline-item"><time>1876</time><h3>Paseo ajardinado</h3><p>Las fuentes de mármol y la transformación paisajística acercan la plaza al paseo urbano moderno.</p></article>
+        <article class="timeline-item"><time>1901</time><h3>Huella de Thays</h3><p>El paisajismo refuerza senderos, sombra y composición vegetal en torno al espacio cívico.</p></article>
+        <article class="timeline-item"><time>1916</time><h3>Monumento a San Martín</h3><p>La figura ecuestre se inaugura y pasa a dominar el eje visual y simbólico de la plaza.</p></article>
+        <article class="timeline-item"><time>1937</time><h3>Kilómetro Cero</h3><p>El monolito de calle Buenos Aires marca una referencia histórica para rutas y numeración.</p></article>
+        <article class="timeline-item"><time>1952</time><h3>Nueva lectura verde</h3><p>Intervenciones atribuidas a Carlos David continúan la evolución del paisaje y sus áreas verdes.</p></article>
+        <article class="timeline-item"><time>Hoy</time><h3>Patrimonio vivo</h3><p>Conviven descanso, tránsito peatonal, expresiones culturales, actos cívicos y turismo urbano.</p></article>
+      </div>
+
+      <a class="read-more" href="/ubicacion/">Ver ubicación y cómo llegar</a>
+    </div>
+  </section>
+
+  <section id="preguntas" class="section section-sand">
+    <div class="shell">
+      <div class="section-head">
+        <div><span class="section-kicker">Preguntas frecuentes</span><h2>Historia en pocas preguntas</h2></div>
+        <p class="section-intro">Respuestas breves sobre el origen, el nombre y los hitos de la plaza.</p>
+      </div>
+      <div class="faq-list">
+        {faq.map((item) => (
+          <details class="faq">
+            <summary>{item.q}</summary>
+            <p>{item.a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="related">
+    <div class="shell">
+      <h2 class="block-title">Seguir explorando</h2>
+      <div class="related-grid">
+        <a class="related-card" href="/ubicacion/"><span>Ubicación</span><strong>Dónde está y cómo llegar</strong></a>
+        <a class="related-card" href="/clima/"><span>Clima</span><strong>Pronóstico y mejor época</strong></a>
+        <a class="related-card" href="/"><span>Inicio</span><strong>Guía completa de visita</strong></a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -3,7 +3,7 @@ import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
 
 const configuredSite = process.env.SITE_URL?.trim();
-const site = configuredSite || undefined;
+const site = configuredSite || 'https://plazasanmartinarg.com';
 
 export default defineConfig({
   site,

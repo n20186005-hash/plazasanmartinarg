@@ -1,0 +1,165 @@
+---
+import { fetchWeather } from '../lib/weather';
+
+// Render inicial en el servidor (build): si hay red, la página ya incluye datos;
+// el script del cliente los refresca con el Worker (/api/weather). Si no hay red
+// en el build, el bloque queda vacío y se completa en el navegador.
+let initial: import('../lib/weather').EnrichedWeather | null = null;
+try {
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), 2500);
+  initial = await fetchWeather(ctrl.signal);
+  clearTimeout(timer);
+} catch {
+  initial = null;
+}
+---
+
+<section id="clima" class="section section-sand">
+  <div class="shell">
+    <div class="section-head">
+      <div><span class="section-kicker">Clima en Córdoba</span><h2>Tiempo ahora y pronóstico en Plaza San Martín</h2></div>
+      <p class="section-intro">Condición actual y pronóstico de varios días en Plaza San Martín, con sugerencias prácticas según el clima del momento: vestimenta, plan de visita y qué llevar. La lectura se actualiza con frecuencia.</p>
+    </div>
+
+    <div class="weather-card" data-weather-root>
+      <div class="weather-top">
+        <div class="weather-now" data-weather-now>
+          {
+            initial && (
+              <>
+                <div class="weather-now-main">
+                  <span class="weather-icon" aria-hidden="true">{initial.current.icon}</span>
+                  <div>
+                    <strong class="weather-temp">{initial.current.temp}°</strong>
+                    <span class="weather-label">{initial.current.label}</span>
+                  </div>
+                </div>
+                <dl class="weather-meta">
+                  <div><dt>Sensación</dt><dd>{initial.current.apparent}°</dd></div>
+                  <div><dt>Humedad</dt><dd>{initial.current.humidity}%</dd></div>
+                  <div><dt>Viento</dt><dd>{initial.current.wind} km/h</dd></div>
+                  <div><dt>Lluvia hoy</dt><dd>{initial.current.precipProb}%</dd></div>
+                </dl>
+                {initial.current.umbrella && <p class="weather-umbrella">Conviene llevar paraguas o prendas de lluvia.</p>}
+              </>
+            )
+          }
+        </div>
+
+        <ul class="weather-days" data-weather-days>
+          {
+            initial &&
+              initial.daily.map((d) => (
+                <li>
+                  <span class="wd-day">{d.weekday}</span>
+                  <span class="wd-icon" aria-hidden="true">{d.icon}</span>
+                  <span class="wd-label">{d.label}</span>
+                  <span class="wd-temp"><strong>{d.tMax}°</strong> / {d.tMin}°</span>
+                  <span class="wd-rain">{d.precipProb}%</span>
+                </li>
+              ))
+          }
+        </ul>
+      </div>
+
+      <div class="weather-advice" data-weather-advice>
+        {
+          initial && initial.advice.risk.length > 0 && (
+            <div class="advice-risk">
+              <strong>Precaución</strong>
+              <ul>{initial.advice.risk.map((r) => <li>{r}</li>)}</ul>
+            </div>
+          )
+        }
+        {
+          initial && (
+            <div class="advice-grid">
+              {initial.advice.outfit.length > 0 && (
+                <div class="advice-card"><h4>Vestimenta</h4><ul>{initial.advice.outfit.map((x) => <li>{x}</li>)}</ul></div>
+              )}
+              {initial.advice.activities.length > 0 && (
+                <div class="advice-card"><h4>Plan de visita</h4><ul>{initial.advice.activities.map((x) => <li>{x}</li>)}</ul></div>
+              )}
+              {initial.advice.items.length > 0 && (
+                <div class="advice-card"><h4>Qué llevar</h4><ul>{initial.advice.items.map((x) => <li>{x}</li>)}</ul></div>
+              )}
+            </div>
+          )
+        }
+      </div>
+    </div>
+
+    <p class="weather-note" data-weather-note hidden></p>
+    <noscript><p class="weather-note">Este bloque de clima usa datos actualizados y requiere JavaScript para mostrarse.</p></noscript>
+  </div>
+
+  <script is:inline>
+    (() => {
+      const root = document.querySelector('[data-weather-root]');
+      if (!root) return;
+      const nowEl = root.querySelector('[data-weather-now]');
+      const daysEl = root.querySelector('[data-weather-days]');
+      const adviceEl = root.querySelector('[data-weather-advice]');
+      const noteEl = root.querySelector('[data-weather-note]');
+
+      const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+      const cap = (s) => (s ? s.charAt(0).toUpperCase() + s.slice(1) : s);
+
+      const renderAdvice = (a) => {
+        if (!a) { adviceEl.innerHTML = ''; return; }
+        let html = '';
+        if (a.risk && a.risk.length) {
+          html += '<div class="advice-risk"><strong>Precaución</strong><ul>' +
+            a.risk.map((r) => '<li>' + esc(r) + '</li>').join('') + '</ul></div>';
+        }
+        const cards = [];
+        if (a.outfit && a.outfit.length) cards.push('<div class="advice-card"><h4>Vestimenta</h4><ul>' + a.outfit.map((x) => '<li>' + esc(x) + '</li>').join('') + '</ul></div>');
+        if (a.activities && a.activities.length) cards.push('<div class="advice-card"><h4>Plan de visita</h4><ul>' + a.activities.map((x) => '<li>' + esc(x) + '</li>').join('') + '</ul></div>');
+        if (a.items && a.items.length) cards.push('<div class="advice-card"><h4>Qué llevar</h4><ul>' + a.items.map((x) => '<li>' + esc(x) + '</li>').join('') + '</ul></div>');
+        if (cards.length) html += '<div class="advice-grid">' + cards.join('') + '</div>';
+        adviceEl.innerHTML = html;
+      };
+
+      const render = (data) => {
+        const c = data.current;
+        nowEl.innerHTML =
+          '<div class="weather-now-main">' +
+            '<span class="weather-icon" aria-hidden="true">' + c.icon + '</span>' +
+            '<div><strong class="weather-temp">' + c.temp + '°</strong>' +
+            '<span class="weather-label">' + esc(cap(c.label)) + '</span></div>' +
+          '</div>' +
+          '<dl class="weather-meta">' +
+            '<div><dt>Sensación</dt><dd>' + c.apparent + '°</dd></div>' +
+            '<div><dt>Humedad</dt><dd>' + c.humidity + '%</dd></div>' +
+            '<div><dt>Viento</dt><dd>' + c.wind + ' km/h</dd></div>' +
+            '<div><dt>Lluvia hoy</dt><dd>' + c.precipProb + '%</dd></div>' +
+          '</dl>' +
+          (c.umbrella ? '<p class="weather-umbrella">Conviene llevar paraguas o prendas de lluvia.</p>' : '');
+        daysEl.innerHTML = data.daily.map((d) =>
+          '<li>' +
+            '<span class="wd-day">' + esc(cap(d.weekday)) + '</span>' +
+            '<span class="wd-icon" aria-hidden="true">' + d.icon + '</span>' +
+            '<span class="wd-label">' + esc(cap(d.label)) + '</span>' +
+            '<span class="wd-temp"><strong>' + d.tMax + '°</strong> / ' + d.tMin + '°</span>' +
+            '<span class="wd-rain">' + d.precipProb + '%</span>' +
+          '</li>'
+        ).join('');
+        renderAdvice(data.advice);
+      };
+
+      fetch('/api/weather')
+        .then((r) => (r.ok ? r.json() : Promise.reject()))
+        .then((data) => {
+          if (data && data.current) render(data);
+          else if (noteEl) noteEl.textContent = 'No hay datos de clima disponibles en este momento.';
+        })
+        .catch(() => {
+          if (noteEl) {
+            noteEl.hidden = false;
+            noteEl.textContent = 'No se pudo cargar el clima ahora; volvé a intentarlo más tarde.';
+          }
+        });
+    })();
+  </script>
+</section>

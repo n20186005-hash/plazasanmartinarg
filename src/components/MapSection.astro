@@ -1,0 +1,49 @@
+---
+import { GOOGLE_MAPS_EMBED } from '../data/site';
+
+interface Props {
+  title?: string;
+  caption?: string;
+}
+
+const {
+  title = 'Mapa de Plaza San Martín, Córdoba',
+  caption = 'Dirección de referencia: X5000 Córdoba, Provincia de Córdoba, Argentina. El mapa externo puede mostrar información dinámica.',
+} = Astro.props;
+---
+
+<div class="map-wrap" data-map-root>
+  <div class="map-consent" data-map-consent>
+    <div class="map-consent-inner">
+      <h3>Cargar mapa interactivo</h3>
+      <p>Google Maps es un servicio de terceros y puede utilizar cookies o tecnologías similares. Al cargarlo, aceptás esa conexión para esta función.</p>
+      <button class="button button-light" type="button" data-load-map>Cargar Google Maps</button>
+      <p><a href="/privacidad/">Cómo tratamos los servicios de terceros</a></p>
+    </div>
+  </div>
+  <template data-map-template>
+    <iframe src={GOOGLE_MAPS_EMBED} width="600" height="450" style="border:0;" allowfullscreen loading="lazy" referrerpolicy="strict-origin-when-cross-origin" title={title}></iframe>
+  </template>
+</div>
+<p class="map-caption">{caption}</p>
+
+<script is:inline>
+  (() => {
+    const root = document.querySelector('[data-map-root]');
+    if (!root) return;
+    const consent = root.querySelector('[data-map-consent]');
+    const template = root.querySelector('[data-map-template]');
+    const load = () => {
+      if (root.querySelector('iframe') || !template) return;
+      root.appendChild(template.content.cloneNode(true));
+      consent?.remove();
+    };
+    const preferences = window.psmConsent?.read?.();
+    if (preferences?.preferences) load();
+    root.querySelector('[data-load-map]')?.addEventListener('click', () => {
+      const current = window.psmConsent?.read?.() || {};
+      window.psmConsent?.save?.({ ...current, preferences: true });
+      load();
+    });
+  })();
+</script>

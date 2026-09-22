@@ -1,0 +1,15 @@
+{
+  "name": "Plaza San Martín Córdoba — Guía de visita",
+  "short_name": "Plaza San Martín",
+  "description": "Guía cultural independiente de Plaza San Martín en Córdoba, Argentina: historia, ubicación, cómo llegar y preguntas frecuentes.",
+  "lang": "es-AR",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#173c33",
+  "theme_color": "#173c33",
+  "icons": [
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "/apple-touch-icon.png", "sizes": "180x180", "type": "image/png", "purpose": "any" }
+  ]
+}

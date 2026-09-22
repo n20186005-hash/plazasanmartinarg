@@ -1,0 +1,153 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import MapSection from '../components/MapSection.astro';
+import { SITE_NAME } from '../data/site';
+
+const cathedralImage = 'https://commons.wikimedia.org/wiki/Special:FilePath/2011.10.19.191927%20Plaza%20San%20Mart%C3%ADn%20Catedral%20C%C3%B3rdoba%20Argentina.jpg?width=1600';
+
+const base = Astro.site ? Astro.site.href.replace(/\/$/, '') : 'https://plazasanmartinarg.com';
+const here = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : Astro.url.pathname;
+
+const faq = [
+  {
+    q: '¿Dónde queda la Plaza San Martín de Córdoba?',
+    a: 'En el microcentro de Córdoba, Provincia de Córdoba, Argentina, frente a la Catedral y al borde del Cabildo Histórico. La dirección de referencia es X5000 Córdoba.'
+  },
+  {
+    q: '¿Cuál es la dirección exacta?',
+    a: 'Se identifica como Plaza San Martín, X5000 Córdoba (Provincia de Córdoba, Argentina). No tiene número de puerta propio: el punto de referencia es el cruce frente a la Catedral, en el centro histórico.'
+  },
+  {
+    q: '¿Está cerca de la Catedral y del Cabildo?',
+    a: 'Sí. La Catedral está en el borde inmediato de la plaza y el Cabildo Histórico colinda con ella. Desde allí se camina en pocos minutos hacia la Manzana Jesuítica y las peatonales del centro.'
+  },
+  {
+    q: '¿Cómo llego desde el Aeropuerto de Córdoba?',
+    a: 'El Aeropuerto Internacional Ingeniero Ambrosio Taravella está a unos 14 km del microcentro. El traslado aeroportuario conecta con la Terminal de Ómnibus y ejes céntricos; desde ahí la plaza queda a pocas cuadras a pie o un breve tramo en taxi o colectivo. Confirmá recorrido y frecuencia vigente antes de viajar.'
+  },
+  {
+    q: '¿Hay estacionamiento en la plaza?',
+    a: 'No hay estacionamiento propio dentro de la plaza. En el centro rige el sistema medido municipal (SEMM) y hay playas privadas en el entorno; las restricciones y disponibilidad varían, por lo que conviene estacionar en el perímetro y terminar caminando.'
+  }
+];
+
+const breadcrumbJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Inicio', item: base + '/' },
+    { '@type': 'ListItem', position: 2, name: 'Ubicación de Plaza San Martín', item: here }
+  ]
+};
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faq.map((item) => ({
+    '@type': 'Question',
+    name: item.q,
+    acceptedAnswer: { '@type': 'Answer', text: item.a }
+  }))
+};
+---
+
+<BaseLayout
+  title="Dónde está Plaza San Martín Córdoba: ubicación y cómo llegar — Guía de visita"
+  description="Ubicación de Plaza San Martín en Córdoba: dirección X5000, frente a la Catedral y el Cabildo, mapa interactivo, cómo llegar y dónde estacionar."
+  image={cathedralImage}
+  structuredData={[breadcrumbJsonLd, faqJsonLd]}
+>
+  <div class="shell">
+    <nav class="breadcrumb" aria-label="Ruta de navegación">
+      <ol>
+        <li><a href="/">Inicio</a></li>
+        <li>Ubicación</li>
+      </ol>
+    </nav>
+
+    <header class="subpage-hero">
+      <span class="eyebrow">Ubicación y acceso</span>
+      <h1>Dónde está Plaza San Martín en Córdoba</h1>
+      <p class="lede">El corazón del casco histórico: microcentro, frente a la Catedral y junto al Cabildo. Acá tenés la dirección, el mapa y la lógica para llegar sin complicaciones.</p>
+    </header>
+  </div>
+
+  <section class="section">
+    <div class="shell">
+      <div class="section-head">
+        <div><span class="section-kicker">El punto</span><h2>En el kilómetro cero del centro</h2></div>
+        <p class="section-intro">La plaza funciona mejor como destino peatonal. El mapa se carga solo cuando lo pedís, para no conectar con terceros antes de una acción explícita.</p>
+      </div>
+
+      <div class="quick-strip" style="margin-top:0" aria-label="Datos de ubicación">
+        <div class="shell quick-grid">
+          <div class="quick-item"><span>Dirección</span><strong>X5000 Córdoba</strong><small>Microcentro, Provincia de Córdoba</small></div>
+          <div class="quick-item"><span>Frente a</span><strong>Catedral de Córdoba</strong><small>Y al borde del Cabildo Histórico</small></div>
+          <div class="quick-item"><span>Referencia</span><strong>Kilómetro Cero</strong><small>Monolito en calle Buenos Aires (1937)</small></div>
+          <div class="quick-item"><span>Entorno</span><strong>Todo a pie</strong><small>Manzana Jesuítica y peatonales</small></div>
+        </div>
+      </div>
+
+      <MapSection title="Mapa de Plaza San Martín, Córdoba" />
+    </div>
+  </section>
+
+  <section id="como-llegar" class="section section-dark">
+    <div class="shell transport-layout">
+      <div class="transport-sticky">
+        <span class="section-kicker">Cómo llegar</span>
+        <h2>La lógica del viaje al microcentro</h2>
+        <p>Plaza San Martín está en el microcentro y se recorre mejor a pie. Las líneas, tarifas y frecuencias cambian; por eso esta guía explica la lógica y remite a fuentes oficiales para el dato operativo del día.</p>
+      </div>
+      <div class="route-list">
+        <article class="route"><div class="route-num">A</div><div><h3>Desde el aeropuerto</h3><p><strong>Aeropuerto Internacional Ingeniero Ambrosio Taravella (COR).</strong> Está a unos 14 km del microcentro. El servicio de traslado aeroportuario conecta con la Terminal de Ómnibus y ejes céntricos; desde ahí la plaza queda a pocas cuadras a pie o un breve tramo en colectivo o taxi. También operan taxis y remis habilitados en la sala de arribos: conviene confirmar la tarifa antes de subir.</p></div></article>
+        <article class="route"><div class="route-num">B</div><div><h3>Colectivo urbano</h3><p>Varias líneas troncales y locales atraviesan o bordean el microcentro, con paradas a menos de 5 cuadras de la plaza. Como la red de Córdoba puede modificar denominaciones y recorridos, evitamos congelar números de línea: consultá el planificador municipal o la app de transporte urbano para elegir la parada del día.</p></div></article>
+        <article class="route"><div class="route-num">C</div><div><h3>Taxi y remis</h3><p>Pedí como destino “Plaza San Martín, Centro”. El recorrido desde la mayoría de los puntos de la ciudad es corto; en hora pico o con cortes, el descenso puede hacerse en una calle perimetral a pocos pasos de la plaza. Utilizá servicios habilitados y comprobá la tarifa antes de iniciar el viaje.</p></div></article>
+        <article class="route"><div class="route-num">D</div><div><h3>Auto particular</h3><p>El microcentro tiene calles peatonales, restricciones y alta demanda. Lo más práctico suele ser estacionar en el perímetro y completar caminando. El sistema municipal <strong>SEMM</strong> regula espacios medidos en vía pública.</p></div></article>
+        <article class="route"><div class="route-num">E</div><div><h3>A pie y en bicicleta</h3><p>La plaza es un nodo natural para recorrer el centro caminando. En bicicleta, reducí la velocidad en áreas peatonales y asegurala solo en sitios permitidos.</p></div></article>
+      </div>
+    </div>
+  </section>
+
+  <section id="alrededores" class="section">
+    <div class="shell">
+      <div class="section-head">
+        <div><span class="section-kicker">Alrededores</span><h2>Lo que está a pocos pasos</h2></div>
+        <p class="section-intro">Estos hitos patrimoniales forman parte del mismo paisaje histórico y se exploran fácilmente a pie desde la plaza.</p>
+      </div>
+      <div class="nearby-grid">
+        <article class="nearby-card"><div><span class="distance">Borde de la plaza</span><h3>Catedral de Córdoba</h3><p>Uno de los grandes edificios históricos de la ciudad, con una larga construcción que combina lenguajes renacentistas, barrocos y neoclásicos.</p></div><a href="https://turismo.cordoba.gob.ar/" rel="noreferrer">Consultar información turística oficial →</a></article>
+        <article class="nearby-card"><div><span class="distance">Borde de la plaza</span><h3>Cabildo Histórico</h3><p>Antigua sede del gobierno colonial y pieza clave para comprender cómo se organizó el poder civil frente a la Plaza Mayor.</p></div><a href="https://cultura.cordoba.gob.ar/" rel="noreferrer">Consultar agenda cultural pública →</a></article>
+        <article class="nearby-card"><div><span class="distance">Caminata breve</span><h3>Manzana Jesuítica</h3><p>Conjunto histórico ligado a la presencia jesuita y a la Universidad Nacional de Córdoba, fundamental para el relato cultural de la ciudad.</p></div><a href="https://whc.unesco.org/" rel="noreferrer">Consultar patrimonio mundial →</a></article>
+      </div>
+    </div>
+  </section>
+
+  <section id="preguntas" class="section section-sand">
+    <div class="shell">
+      <div class="section-head">
+        <div><span class="section-kicker">Preguntas frecuentes</span><h2>Ubicación en pocas preguntas</h2></div>
+        <p class="section-intro">Respuestas breves sobre dónde está, cómo llegar y dónde estacionar.</p>
+      </div>
+      <div class="faq-list">
+        {faq.map((item) => (
+          <details class="faq">
+            <summary>{item.q}</summary>
+            <p>{item.a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="related">
+    <div class="shell">
+      <h2 class="block-title">Seguir explorando</h2>
+      <div class="related-grid">
+        <a class="related-card" href="/historia/"><span>Historia</span><strong>Desde 1577 hasta hoy</strong></a>
+        <a class="related-card" href="/clima/"><span>Clima</span><strong>Pronóstico y mejor época</strong></a>
+        <a class="related-card" href="/"><span>Inicio</span><strong>Guía completa de visita</strong></a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
