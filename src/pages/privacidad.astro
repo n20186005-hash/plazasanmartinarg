@@ -38,7 +38,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           <ul>
             <li>Operar, proteger y mantener el sitio.</li>
             <li>Mejorar la estructura, accesibilidad y utilidad del contenido.</li>
-            <li>Analizar patrones de uso de forma agregada cuando existe consentimiento.</li>
+            <li>Analizar con Google Analytics patrones de uso de forma agregada cuando existe consentimiento.</li>
             <li>Cumplir obligaciones legales y prevenir abusos técnicos.</li>
           </ul>
           <p>No vendemos datos personales ni elaboramos perfiles publicitarios propios.</p>
@@ -51,11 +51,13 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           <p>La medición con el identificador GA4 del proyecto se mantiene desactivada por defecto. El script de Google Analytics solo se solicita después de que habilitás la categoría analítica en la página de configuración de cookies. Al retirar el permiso aplicamos la negativa a la medición ya cargada. El resultado del guardado indica si pudimos confirmar la decisión en el almacenamiento del navegador.</p>
           <h3>Wikimedia Commons</h3>
           <p>Las fotografías se muestran desde este sitio. Los enlaces de autoría y licencia abren Wikimedia Commons o Creative Commons cuando los seleccionás; esos sitios aplican sus propias políticas.</p>
-          <h3>Clima y alojamiento</h3><p>El navegador solicita el pronóstico a este mismo sitio. El servidor consulta Open-Meteo con las coordenadas de la plaza, sin pedir tu ubicación. El alojamiento procesa solicitudes y datos técnicos necesarios para entregar las páginas. No ofrecemos cuentas, reservas ni un formulario de contacto.</p>
+          <h3>Cloudflare Web Analytics y alojamiento</h3>
+          <p>El alojamiento incorpora un beacon de Cloudflare Web Analytics (RUM) para medir el rendimiento de carga. Es independiente de Google Analytics: la opción de analítica de este sitio controla GA4 y no controla el beacon del alojamiento. Según la <a href="https://developers.cloudflare.com/web-analytics/data-metrics/data-origin-and-collection/">documentación de Cloudflare sobre recopilación</a>, este servicio mide tiempos de navegación y puede enviar métricas de rendimiento. La presencia del script no confirma que se hayan enviado datos en una visita concreta.</p>
+          <h3>Clima</h3><p>El navegador solicita el pronóstico a este mismo sitio. El servidor consulta Open-Meteo con las coordenadas de la plaza, sin pedir tu ubicación. El alojamiento procesa solicitudes y datos técnicos necesarios para entregar las páginas. No ofrecemos cuentas, reservas ni un formulario de contacto.</p>
         </section>
         <section id="base">
           <h2>5. Base jurídica</h2>
-          <p>Cuando corresponde, el tratamiento técnico necesario se fundamenta en el funcionamiento y la seguridad del servicio. La analítica y las funciones opcionales de terceros se basan en tu consentimiento. Para personas protegidas por normativa europea, aplicamos los principios pertinentes del Reglamento General de Protección de Datos; en Argentina también consideramos la Ley 25.326 de Protección de los Datos Personales y normas relacionadas.</p>
+          <p>Cuando corresponde, el tratamiento técnico necesario se fundamenta en el funcionamiento y la seguridad del servicio. Google Analytics y la carga opcional de Google Maps se basan en tu consentimiento; el beacon del alojamiento se describe por separado en la sección de terceros. Para personas protegidas por normativa europea, aplicamos los principios pertinentes del Reglamento General de Protección de Datos; en Argentina también consideramos la Ley 25.326 de Protección de los Datos Personales y normas relacionadas.</p>
         </section>
         <section id="conservacion">
           <h2>6. Conservación y seguridad</h2>
