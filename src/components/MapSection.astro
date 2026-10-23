@@ -8,7 +8,7 @@ interface Props {
 
 const {
   title = 'Mapa de Plaza San Martín, Córdoba',
-  caption = 'Dirección de referencia: X5000 Córdoba, Provincia de Córdoba, Argentina. El mapa externo puede mostrar información dinámica.',
+  caption = 'Dirección de referencia: X5000 Córdoba, Provincia de Córdoba, Argentina. Perímetro: 27 de Abril, Buenos Aires, Independencia y Rosario de Santa Fe. El mapa externo puede mostrar información dinámica.',
 } = Astro.props;
 ---
 
@@ -18,6 +18,7 @@ const {
       <h3>Cargar mapa interactivo</h3>
       <p>Google Maps es un servicio de terceros y puede utilizar cookies o tecnologías similares. Al cargarlo, aceptás esa conexión para esta función.</p>
       <button class="button button-light" type="button" data-load-map>Cargar Google Maps</button>
+      <p data-map-status role="status" aria-live="polite"></p>
       <p><a href="/privacidad/">Cómo tratamos los servicios de terceros</a></p>
     </div>
   </div>
@@ -36,14 +37,22 @@ const {
     const load = () => {
       if (root.querySelector('iframe') || !template) return;
       root.appendChild(template.content.cloneNode(true));
-      consent?.remove();
+      if (consent) consent.hidden = true;
     };
+    window.addEventListener('psm-consent-changed', () => {
+      if (window.psmConsent?.read?.().preferences) load();
+      else { root.querySelector('iframe')?.remove(); if (consent) consent.hidden = false; }
+    });
     const preferences = window.psmConsent?.read?.();
     if (preferences?.preferences) load();
     root.querySelector('[data-load-map]')?.addEventListener('click', () => {
       const current = window.psmConsent?.read?.() || {};
-      window.psmConsent?.save?.({ ...current, preferences: true });
-      load();
+      const result = window.psmConsent?.save?.({ ...current, preferences: true });
+      if (result?.choice.preferences) load();
+      else {
+        const message = root.querySelector('[data-map-status]');
+        if (message) message.textContent = result?.message || 'No se pudo confirmar el permiso para cargar el mapa.';
+      }
     });
   })();
 </script>

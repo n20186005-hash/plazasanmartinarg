@@ -19,4 +19,4 @@
 - Plaza San Martín y Catedral, fotografía de Hermann Luyken. Dedicación CC0 según la ficha del archivo en Wikimedia Commons.
 - Otras vistas de Plaza San Martín alojadas en Wikimedia Commons. Cada archivo conserva la licencia indicada por su ficha individual.
 
-No se incorporan fotografías de comercios ni menciones patrocinadas.
+Las fotografías y sus fuentes se identifican por archivo en LICENCIAS_FOTOS.md.

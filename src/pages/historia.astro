@@ -1,9 +1,8 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { SITE_NAME } from '../data/site';
 
-const heroImage = 'https://upload.wikimedia.org/wikipedia/commons/b/b1/Monumento_a_Jos%C3%A9_de_San_Mart%C3%ADn_C%C3%B3rdoba_2011-12-22.jpg';
-const cathedralImage = 'https://commons.wikimedia.org/wiki/Special:FilePath/2011.10.19.191927%20Plaza%20San%20Mart%C3%ADn%20Catedral%20C%C3%B3rdoba%20Argentina.jpg?width=1600';
+const heroImage = '/photos/monumento.jpg';
+const cathedralImage = '/photos/catedral.jpg';
 
 const base = Astro.site ? Astro.site.href.replace(/\/$/, '') : 'https://plazasanmartinarg.com';
 const here = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : Astro.url.pathname;
@@ -18,8 +17,8 @@ const faq = [
     a: 'El nombre actual se consolidó con la inauguración del monumento ecuestre al General José de San Martín el 8 de julio de 1916. Antes funcionó durante siglos como Plaza Mayor y luego como plaza del Cabildo.'
   },
   {
-    q: '¿Qué es el Kilómetro Cero de Córdoba en la plaza?',
-    a: 'Desde 1937 un monolito sobre el borde de calle Buenos Aires marca el Kilómetro Cero, una referencia histórica para la numeración y la red vial provincial. No es el centro geográfico de la ciudad, sino un hito de medición vial.'
+    q: '¿Qué calles rodean la plaza?',
+    a: 'El circuito turístico municipal toma la plaza como punto de partida del centro histórico. Su perímetro está formado por 27 de Abril, Buenos Aires, Independencia y Rosario de Santa Fe.'
   },
   {
     q: '¿Quién diseñó el paseo ajardinado que se ve hoy?',
@@ -53,7 +52,7 @@ const faqJsonLd = {
 
 <BaseLayout
   title="Historia de Plaza San Martín (Córdoba): desde 1577 — Guía de visita"
-  description="La historia de Plaza San Martín en Córdoba: del Plaza Mayor de 1577 al monumento a San Martín de 1916, el Kilómetro Cero y el paseo de Carlos Thays."
+  description="La historia de Plaza San Martín en Córdoba: de la Plaza Mayor de 1577 al monumento a San Martín de 1916, el paseo de Carlos Thays y sus transformaciones."
   image={heroImage}
   structuredData={[breadcrumbJsonLd, faqJsonLd]}
 >
@@ -82,10 +81,10 @@ const faqJsonLd = {
       <div class="story-grid">
         <div class="story-copy">
           <p>En 1577, cuando el trazado urbano de Córdoba se organizó en un damero de unas setenta manzanas, el espacio que hoy ocupa la Plaza San Martín quedó reservado como <strong>Plaza Mayor</strong>. Frente a ella se asignaron los solares del Cabildo y de la Iglesia Mayor, una decisión que fijó el núcleo político, religioso y social de la ciudad.</p>
-          <p>Durante la etapa colonial la plaza era mucho más dura y abierta que el jardín actual. Funcionaba como mercado, lugar de llegada de carretas, escenario de procesiones, fiestas públicas y actos oficiales. Hacia fines del siglo XVIII, durante la gestión del Marqués de Sobremonte, comenzaron mejoras de iluminación y abastecimiento de agua.</p>
+          <p>Durante la etapa colonial fue una plaza seca: un espacio abierto para ferias, procesiones y actos públicos. La incorporación de árboles y fuentes transformó gradualmente el lugar en el paseo que se conoce hoy.</p>
           <blockquote>Mirar la plaza es mirar el plano fundador de Córdoba: el vacío central organiza los poderes, las calles y la vida pública.</blockquote>
           <p>En el siglo XIX el lugar se transformó gradualmente en paseo ajardinado. En 1876 se instalaron fuentes de mármol de Carrara vinculadas al trabajo de José Allio. A comienzos del siglo XX el paisajista Carlos Thays intervino el espacio con una composición más estructurada y especies como tipas, lapachos y magnolias.</p>
-          <p>El 8 de julio de 1916 se inauguró el monumento ecuestre al General José de San Martín. La obra consolidó el nombre actual de la plaza y reorganizó su lectura simbólica. Desde 1937, además, un monolito sobre el borde de calle Buenos Aires identifica el <strong>Kilómetro Cero</strong>, referencia histórica para la red vial provincial y la numeración urbana.</p>
+          <p>El 8 de julio de 1916 se inauguró el monumento ecuestre al General José de San Martín. La fuente municipal describe cómo reemplazó la glorieta de música del centro de la plaza. Las transformaciones del paisaje continuaron en la década de 1950 bajo la dirección de Carlos David.</p>
         </div>
         <figure class="photo-card story-media">
           <img src={cathedralImage} alt="Catedral de Córdoba vista desde el entorno de Plaza San Martín al anochecer" loading="lazy" />
@@ -95,15 +94,15 @@ const faqJsonLd = {
 
       <div class="timeline" aria-label="Cronología de la plaza">
         <article class="timeline-item"><time>1577</time><h3>Plaza Mayor</h3><p>El trazado del damero fija el espacio central y los solares institucionales de su perímetro.</p></article>
-        <article class="timeline-item"><time>1786</time><h3>Primeras mejoras</h3><p>Se documentan intervenciones de iluminación y una fuente durante la administración de Sobremonte.</p></article>
         <article class="timeline-item"><time>1876</time><h3>Paseo ajardinado</h3><p>Las fuentes de mármol y la transformación paisajística acercan la plaza al paseo urbano moderno.</p></article>
         <article class="timeline-item"><time>1901</time><h3>Huella de Thays</h3><p>El paisajismo refuerza senderos, sombra y composición vegetal en torno al espacio cívico.</p></article>
         <article class="timeline-item"><time>1916</time><h3>Monumento a San Martín</h3><p>La figura ecuestre se inaugura y pasa a dominar el eje visual y simbólico de la plaza.</p></article>
-        <article class="timeline-item"><time>1937</time><h3>Kilómetro Cero</h3><p>El monolito de calle Buenos Aires marca una referencia histórica para rutas y numeración.</p></article>
         <article class="timeline-item"><time>1952</time><h3>Nueva lectura verde</h3><p>Intervenciones atribuidas a Carlos David continúan la evolución del paisaje y sus áreas verdes.</p></article>
         <article class="timeline-item"><time>Hoy</time><h3>Patrimonio vivo</h3><p>Conviven descanso, tránsito peatonal, expresiones culturales, actos cívicos y turismo urbano.</p></article>
       </div>
 
+      <p>Imagen de referencia del monumento: Jarod Burns (2011), <a href="https://commons.wikimedia.org/wiki/File:Monumento_a_Jos%C3%A9_de_San_Mart%C3%ADn_C%C3%B3rdoba_2011-12-22.jpg">Wikimedia Commons</a>, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC BY-SA 2.0</a>. Las vistas son históricas.</p>
+      <p>Fuentes: <a href="https://respira.cordoba.gob.ar/portfolio/plaza-san-martin/">Respira Córdoba, Municipalidad de Córdoba</a> y <a href="https://turismo.cordoba.gob.ar/circuito-centro-historico/">circuito municipal del centro histórico</a>. Consulta: 22 de octubre de 2026.</p>
       <a class="read-more" href="/ubicacion/">Ver ubicación y cómo llegar</a>
     </div>
   </section>

@@ -5,8 +5,8 @@
   "type": "module",
   "packageManager": "pnpm@11.24.0",
   "engines": {
-    "node": "24.19.0",
-    "pnpm": "11.24.0"
+    "node": ">=24.19.0 <25",
+    "pnpm": ">=11.24.0 <12"
   },
   "scripts": {
     "dev": "astro dev",

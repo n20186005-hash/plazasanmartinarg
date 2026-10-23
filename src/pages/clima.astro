@@ -1,32 +1,17 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import WeatherSection from '../components/WeatherSection.astro';
-import { SITE_NAME } from '../data/site';
+import WeatherPlanning from '../components/WeatherPlanning.astro';
 
 const base = Astro.site ? Astro.site.href.replace(/\/$/, '') : 'https://plazasanmartinarg.com';
 const here = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : Astro.url.pathname;
 
 const faq = [
-  {
-    q: '¿Cuál es la mejor época para visitar Plaza San Martín?',
-    a: 'Otoño y primavera suelen ser las estaciones más cómodas para caminar el casco histórico: temperaturas amables y buena luz. En verano conviene salir temprano y aprovechar la sombra; en invierno, el mediodía es el momento más templado.'
-  },
-  {
-    q: '¿Hace mucho frío en invierno en Córdoba?',
-    a: 'Los días de invierno suelen ser soleados pero frescos, con noches frías y baja humedad. El mediodía y las primeras horas de la tarde son los momentos más templados para estar al aire libre; conviene una campera abrigada y, si hay viento, una bufanda.'
-  },
-  {
-    q: '¿Llueve mucho en Córdoba?',
-    a: 'El verano es la estación más húmeda, con tormentas de tarde ocasionales. El resto del año la lluvia es menor. El módulo de clima de esta página muestra la probabilidad de lluvia del día para que puedas planificar.'
-  },
-  {
-    q: '¿Qué ropa llevar para visitar la plaza?',
-    a: 'Por la amplitud térmica de Córdoba, una capa intermedia suele bastar: mangas cortas para el día y algo abrigado para la tarde. En verano, sombrero, protector solar y agua; en primavera, paraguas por lluvias aisladas.'
-  },
-  {
-    q: '¿Puedo ver el clima en vivo de la plaza?',
-    a: 'Sí. El bloque de clima de esta página muestra la condición actual y el pronóstico a 7 días para las coordenadas de la plaza. Los valores se actualizan desde una fuente meteorológica y son tendencias, no una promesa del día exacto.'
-  }
+  { q: '¿El pronóstico mide el tiempo dentro de la plaza?', a: 'No. Es una estimación de Open-Meteo para las coordenadas de la plaza en Córdoba, Argentina. No es una estación meteorológica instalada allí ni un servicio de alertas.' },
+  { q: '¿Cuándo se actualiza el pronóstico?', a: 'La página consulta el pronóstico al abrirse. La respuesta puede reutilizarse durante unos diez minutos. Mostramos la hora de consulta en hora de Córdoba; eso no equivale a la hora de una observación local.' },
+  { q: '¿La probabilidad de lluvia garantiza que va a llover?', a: 'No. Es una estimación que puede cambiar. Consultá las alertas del Servicio Meteorológico Nacional y las condiciones del día antes de decidir el paseo.' },
+  { q: '¿Qué ropa llevo?', a: 'Decidí según la temperatura, el viento y la lluvia previstos. Llevá capas si cambia la temperatura, agua y protección solar si hace calor, y reconsiderá el paseo si hay una alerta o tormenta.' },
+  { q: '¿Qué hago si no aparece el clima?', a: 'Si no podemos cargar datos válidos, mostramos un aviso de indisponibilidad en lugar de cifras antiguas. Consultá el Servicio Meteorológico Nacional y volvé a intentarlo más tarde.' }
 ];
 
 const breadcrumbJsonLd = {
@@ -50,8 +35,8 @@ const faqJsonLd = {
 ---
 
 <BaseLayout
-  title="Clima en Plaza San Martín Córdoba: pronóstico y mejor época — Guía de visita"
-  description="Clima en Plaza San Martín, Córdoba: pronóstico en vivo, mejor época para visitar, estaciones y qué llevar según la amplitud térmica local."
+  title="Clima en Plaza San Martín Córdoba: pronóstico para tu paseo"
+  description="Pronóstico para Plaza San Martín en Córdoba, Argentina: temperatura, lluvia, viento y orientación para preparar el paseo. Consultá también las alertas oficiales."
   structuredData={[breadcrumbJsonLd, faqJsonLd]}
 >
   <div class="shell">
@@ -65,29 +50,17 @@ const faqJsonLd = {
     <header class="subpage-hero">
       <span class="eyebrow">Clima y temporada</span>
       <h1>Clima en Plaza San Martín (Córdoba)</h1>
-      <p class="lede">Córdoba tiene marcada amplitud térmica: días cálidos y noches frescas, veranos húmedos con tormentas de tarde. Acá tenés el pronóstico en vivo y la lógica de cada estación para planificar la visita.</p>
+      <p class="lede">Consultá la estimación para las coordenadas de la plaza y ajustá el paseo al tiempo del día. El pronóstico no garantiza condiciones ni sustituye las alertas oficiales.</p>
     </header>
   </div>
 
   <section class="section">
     <div class="shell">
       <div class="section-head">
-        <div><span class="section-kicker">Por estación</span><h2>Estrategia de visita según el clima</h2></div>
-        <p class="section-intro">Los valores son tendencias típicas, no pronósticos; confirmá el clima del día en el módulo de abajo.</p>
+        <div><span class="section-kicker">Antes de salir</span><h2>Qué llevar y cuándo reconsiderar el paseo</h2></div>
+        <p class="section-intro">Usá estas orientaciones junto al pronóstico del módulo siguiente. Las condiciones pueden cambiar durante la visita.</p>
       </div>
-      <div class="table-wrap">
-        <table class="season-table">
-          <thead>
-            <tr><th>Estación</th><th>Qué esperar</th><th>Recomendación</th><th>Qué llevar</th></tr>
-          </thead>
-          <tbody>
-            <tr><th scope="row">Verano</th><td>Tardes cálidas, alta humedad y tormentas de tarde. Mucha luz.</td><td>Salidas temprano; aprovechá la sombra de las arboledas y espacios interiores cercanos en la hora central.</td><td>Sombrero, protector solar, agua y ropa ligera.</td></tr>
-            <tr><th scope="row">Otoño</th><td>Temperaturas amables y buena luz. Menos lluvia que en verano.</td><td>Una de las mejores épocas para caminar el casco histórico sin prisa.</td><td>Una prenda liviana para la tarde y calzado cómodo.</td></tr>
-            <tr><th scope="row">Invierno</th><td>Días soleados pero frescos; noches frías. Baja humedad.</td><td>El mediodía y las primeras horas de la tarde son los momentos más templados para estar al aire libre.</td><td>Campera abrigada y, si hace viento, una bufanda.</td></tr>
-            <tr><th scope="row">Primavera</th><td>Clima variable y agradable; floración en las arboledas.</td><td>Excelente para fotos de la vegetación y recorridos largos a pie.</td><td>Capa intermedia y paraguas por lluvias aisladas.</td></tr>
-          </tbody>
-        </table>
-      </div>
+      <WeatherPlanning />
     </div>
   </section>
 
@@ -97,7 +70,7 @@ const faqJsonLd = {
     <div class="shell">
       <div class="section-head">
         <div><span class="section-kicker">Preguntas frecuentes</span><h2>Clima en pocas preguntas</h2></div>
-        <p class="section-intro">Respuestas breves sobre la mejor época, el frío, la lluvia y qué llevar.</p>
+        <p class="section-intro">Respuestas sobre la fuente, la actualización, la lluvia y los datos no disponibles.</p>
       </div>
       <div class="faq-list">
         {faq.map((item) => (

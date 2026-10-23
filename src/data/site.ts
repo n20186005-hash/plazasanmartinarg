@@ -3,7 +3,7 @@
 // recomendaciones comerciales: solo datos verificables y tipo de servicio.
 
 // Formato SEO del nombre del sitio: «nombre del atractivo + ciudad + guía de visita».
-export const SITE_NAME = 'Plaza San Martín Córdoba — Guía de visita';
+export const SITE_NAME = 'Plaza San Martín en Córdoba: mapa, historia y visita';
 
 export const ATTRACTION = {
   fullName: 'Plaza San Martín',

@@ -271,9 +271,16 @@ export function generateAdvice(
 
 export async function fetchWeather(signal?: AbortSignal): Promise<EnrichedWeather | null> {
   try {
-    const res = await fetch(buildWeatherUrl(), signal ? { signal } : undefined);
+    const res = await fetch(buildWeatherUrl(), { signal: signal || AbortSignal.timeout(8000) });
     if (!res.ok) return null;
-    return enrichWeather(await res.json());
+    const raw = await res.json();
+    const currentFields = ['temperature_2m', 'apparent_temperature', 'relative_humidity_2m', 'wind_speed_10m', 'precipitation', 'weather_code', 'is_day'];
+    const dailyFields = ['weather_code', 'temperature_2m_max', 'temperature_2m_min', 'precipitation_probability_max', 'uv_index_max'];
+    if (!raw?.current || !currentFields.every((key) => typeof raw.current[key] === 'number' && Number.isFinite(raw.current[key]))) return null;
+    const dates = raw?.daily?.time;
+    if (!Array.isArray(dates) || dates.length === 0 || !dates.every((date) => typeof date === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(date))) return null;
+    if (!dailyFields.every((key) => Array.isArray(raw.daily[key]) && raw.daily[key].length === dates.length && raw.daily[key].every((value) => typeof value === 'number' && Number.isFinite(value)))) return null;
+    return enrichWeather(raw);
   } catch {
     return null;
   }

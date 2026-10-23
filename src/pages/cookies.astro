@@ -18,7 +18,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         <a href="#gestionar">Gestionar</a><a href="#necesarias">Necesarias</a><a href="#analiticas">Analíticas</a><a href="#preferencias">Preferencias</a><a href="#marketing">Marketing</a><a href="#terceros">Terceros</a>
       </nav>
       <div class="legal-content">
-        <span class="legal-date">Última actualización: agosto de 2026</span>
+        <span class="legal-date">Última actualización: 22 de octubre de 2026</span>
         <section id="gestionar">
           <h2>Gestioná tus preferencias</h2>
           <p>Este proyecto no muestra un cuadro emergente de consentimiento. Las preferencias se administran aquí, en una página independiente y accesible desde el pie de todo el sitio.</p>
@@ -29,11 +29,11 @@ import BaseLayout from '../layouts/BaseLayout.astro';
             </div>
             <div class="consent-row">
               <div><h3>Analíticas · Google Analytics</h3><p>Ayudan a comprender de forma agregada qué páginas se consultan y cómo mejorar el contenido. Desactivadas por defecto.</p></div>
-              <label class="switch"><input type="checkbox" data-consent="analytics" /><span></span></label>
+              <label class="switch"><input aria-label="Permitir Google Analytics" type="checkbox" data-consent="analytics" /><span></span></label>
             </div>
             <div class="consent-row">
               <div><h3>Preferencias y funciones externas</h3><p>Permiten recordar opciones funcionales, como haber autorizado la carga del mapa interactivo de Google.</p></div>
-              <label class="switch"><input type="checkbox" data-consent="preferences" /><span></span></label>
+              <label class="switch"><input aria-label="Permitir funciones externas" type="checkbox" data-consent="preferences" /><span></span></label>
             </div>
             <div class="consent-row">
               <div><h3>Marketing</h3><p>Este sitio no utiliza publicidad personalizada ni tecnologías de marketing. La categoría permanece desactivada.</p></div>
@@ -53,7 +53,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         <section id="analiticas">
           <h2>Analíticas</h2>
           <p>Google Analytics 4 está integrado de forma condicionada: el navegador no solicita su script hasta que activás “Analíticas”. Si la opción permanece desactivada, esta integración no se carga desde nuestro código.</p>
-          <p>Podés retirar el permiso en cualquier momento desde esta misma página. La información ya tratada por un tercero antes del retiro se rige por sus propios períodos de conservación y obligaciones legales.</p>
+          <p>Podés retirar el permiso desde esta página: aplicamos la negativa al sistema de medición ya cargado, aunque eso no elimina datos tratados antes. La información ya tratada por un tercero antes del retiro se rige por sus propios períodos de conservación y obligaciones legales.</p>
         </section>
         <section id="preferencias">
           <h2>Preferencias</h2>
@@ -88,18 +88,23 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         inputs.marketing.checked = false;
       };
       fill();
+      [inputs.analytics, inputs.preferences].forEach((input) => input.addEventListener('change', () => {
+        if (status) status.textContent = 'Cambios sin guardar. Guardá las preferencias para aplicarlos.';
+      }));
+      window.addEventListener('psm-consent-changed', fill);
       panel.querySelector('[data-save-consent]')?.addEventListener('click', () => {
-        window.psmConsent.save({
+        const result = window.psmConsent.save({
           analytics: inputs.analytics.checked,
           preferences: inputs.preferences.checked,
           marketing: false
         });
-        if (status) status.textContent = 'Preferencias guardadas.';
+        fill();
+        if (status) status.textContent = result.message;
       });
       panel.querySelector('[data-reject-consent]')?.addEventListener('click', () => {
-        window.psmConsent.save({ analytics: false, preferences: false, marketing: false });
+        const result = window.psmConsent.save({ analytics: false, preferences: false, marketing: false });
         fill();
-        if (status) status.textContent = 'Se rechazaron todas las opciones no necesarias.';
+        if (status) status.textContent = result.message;
       });
     })();
   </script>

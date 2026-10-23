@@ -1,12 +1,13 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import WeatherSection from '../components/WeatherSection.astro';
+import WeatherPlanning from '../components/WeatherPlanning.astro';
+import MapSection from '../components/MapSection.astro';
+import PhotoCredits from '../components/PhotoCredits.astro';
 import { SITE_NAME, MAPS_SHARE_URL, GOVT_TOURISM_URL } from '../data/site';
 
-const heroImage = 'https://upload.wikimedia.org/wikipedia/commons/b/b1/Monumento_a_Jos%C3%A9_de_San_Mart%C3%ADn_C%C3%B3rdoba_2011-12-22.jpg';
-const cathedralImage = 'https://commons.wikimedia.org/wiki/Special:FilePath/2011.10.19.191927%20Plaza%20San%20Mart%C3%ADn%20Catedral%20C%C3%B3rdoba%20Argentina.jpg?width=1600';
-const plazaImage = 'https://commons.wikimedia.org/wiki/Special:FilePath/2011.10.19.192507%20Plaza%20San%20Mart%C3%ADn%20C%C3%B3rdoba%20Argentina.jpg?width=1600';
-const nightImage = 'https://commons.wikimedia.org/wiki/Special:FilePath/Plazasanmartinnoche.jpg?width=1600';
+const heroImage = '/photos/monumento.jpg';
+const cathedralImage = '/photos/catedral.jpg';
 
 const mapsShareUrl = MAPS_SHARE_URL;
 const govtTourismUrl = GOVT_TOURISM_URL;
@@ -18,7 +19,7 @@ const faq = [
   },
   {
     q: '¿Cuál es la mejor época para visitar la Plaza San Martín?',
-    a: 'Otoño y primavera suelen ser las estaciones más cómodas para caminar el casco histórico: temperaturas amables y buena luz. En verano conviene salir temprano y aprovechar la sombra; en invierno, el mediodía es el momento más templado.'
+    a: 'Elegí el día según el pronóstico y las alertas. Si hace calor, buscá sombra y evitá la mayor exposición solar; si hay frío, lluvia o viento, adaptá la ropa, el horario y la duración del paseo.'
   },
   {
     q: '¿Conviene llevar paraguas?',
@@ -26,15 +27,15 @@ const faq = [
   },
   {
     q: '¿La entrada a la Plaza San Martín es gratuita?',
-    a: 'Sí. La plaza es un espacio público de acceso libre. Museos, visitas guiadas o actividades especiales de edificios cercanos pueden tener condiciones propias.'
+    a: 'La fuente municipal describe la plaza como espacio público. Confirmá restricciones o condiciones de eventos del día; Catedral, Cabildo, visitas guiadas y otros interiores se consultan por separado. Esta guía no vende entradas.'
   },
   {
     q: '¿La plaza tiene horario de cierre?',
-    a: 'El espacio abierto se identifica como accesible las 24 horas. Los edificios patrimoniales, oficinas culturales y servicios de los alrededores tienen horarios independientes.'
+    a: 'La ficha de Google Maps consultada el 22 de octubre de 2026 indica apertura las 24 horas. Es una referencia de terceros, no una garantía de acceso: obras, actos o restricciones pueden modificarlo. Catedral, Cabildo y otros interiores tienen condiciones propias.'
   },
   {
     q: '¿Cuánto tiempo conviene dedicarle?',
-    a: 'Entre 45 y 75 minutos permiten observar el monumento, la vegetación y las fachadas del entorno con calma. Para sumar Catedral, Cabildo y Manzana Jesuítica conviene reservar varias horas.'
+    a: 'Como orientación de esta guía, entre 45 y 75 minutos permiten observar el monumento, la vegetación y las fachadas del entorno con calma. Para sumar Catedral, Cabildo y Pasaje Santa Catalina conviene reservar varias horas.'
   },
   {
     q: '¿Cuál es el mejor momento para visitarla?',
@@ -46,23 +47,23 @@ const faq = [
   },
   {
     q: '¿Se puede llegar en colectivo urbano?',
-    a: 'Sí. El microcentro cuenta con numerosas paradas a pocas cuadras. Como la red puede modificar recorridos y denominaciones, conviene consultar la información municipal o el planificador Tu Bondi para el trayecto del día.'
+    a: 'Planificá el recorrido vigente para tu origen y comprobá paradas, tarifa, frecuencia y desvíos del día con el servicio local. No garantizamos aquí ninguna línea concreta.'
   },
   {
     q: '¿Hay estacionamiento?',
-    a: 'No existe un estacionamiento propio dentro de la plaza. En el centro hay estacionamiento medido municipal y playas privadas en el entorno; las restricciones de circulación y disponibilidad varían.'
+    a: 'Confirmá la señalización, las restricciones y la disponibilidad con el servicio elegido. Esta guía no ofrece estacionamiento ni garantiza lugares libres.'
   },
   {
     q: '¿Hay baños públicos dentro de la plaza?',
-    a: 'No se considera prudente depender de un sanitario público permanente dentro del espacio abierto. Planificá el uso de sanitarios en equipamientos culturales o servicios del centro durante sus horarios de atención.'
+    a: 'No contamos con una verificación actual de baños públicos disponibles. Si necesitás ese servicio, confirmá ubicación, horario y condiciones de acceso antes del paseo.'
   },
   {
     q: '¿Es un buen punto de partida para recorrer el centro histórico?',
-    a: 'Sí. La Catedral y el Cabildo se encuentran en el borde inmediato de la plaza, y desde allí se puede continuar caminando hacia la Manzana Jesuítica, las peatonales y otros hitos del área central.'
+    a: 'Sí. La Catedral y el Cabildo se encuentran en el borde inmediato de la plaza, y desde allí se puede continuar caminando hacia el Pasaje Santa Catalina, otros puntos del circuito municipal.'
   },
   {
     q: '¿La información de valoración de Google puede cambiar?',
-    a: 'Sí. La referencia de 4,2 sobre 5 y 57.959 reseñas corresponde al listado facilitado para elaborar esta guía. Las valoraciones y el volumen de reseñas son dinámicos.'
+    a: 'Sí. La ficha de Google Maps mostraba 4,2 sobre 5 y 58.116 reseñas al comprobarla el 22 de octubre de 2026. Es una valoración de esa plataforma, no una puntuación recogida por esta guía, y puede cambiar.'
   }
 ];
 
@@ -74,8 +75,7 @@ const attractionJsonLd = {
   alternateName: ['Plaza San Martín', 'Plaza San Martín de Córdoba', 'Plaza Mayor de Córdoba'],
   description: 'Plaza histórica del centro de Córdoba, Argentina, trazada como Plaza Mayor en 1577 y presidida por el monumento ecuestre al General José de San Martín.',
   ...(Astro.site ? { url: new URL('/', Astro.site).href } : {}),
-  image: [heroImage, cathedralImage],
-  isAccessibleForFree: true,
+  image: [new URL(heroImage, Astro.site).href, new URL(cathedralImage, Astro.site).href],
   address: {
     '@type': 'PostalAddress',
     streetAddress: 'Plaza San Martín',
@@ -91,20 +91,7 @@ const attractionJsonLd = {
   },
   hasMap: mapsShareUrl,
   sameAs: [mapsShareUrl, govtTourismUrl],
-  openingHoursSpecification: [
-    {
-      '@type': 'OpeningHoursSpecification',
-      dayOfWeek: ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'],
-      opens: '00:00',
-      closes: '23:59'
-    }
-  ],
-  aggregateRating: {
-    '@type': 'AggregateRating',
-    ratingValue: 4.2,
-    bestRating: 5,
-    reviewCount: 57959
-  }
+
 };
 
 const faqJsonLd = {
@@ -119,7 +106,7 @@ const faqJsonLd = {
 ---
 <BaseLayout
   title={SITE_NAME}
-  description="Guía de Plaza San Martín en Córdoba: historia desde 1577, el monumento a San Martín, clima en vivo, cómo llegar, itinerarios y qué llevar para planificar la visita."
+  description="Plaza San Martín en Córdoba capital, Argentina: ubicación entre Catedral y Cabildo, mapa, historia, acceso y pronóstico para organizar tu paseo."
   image={heroImage}
   structuredData={[attractionJsonLd, faqJsonLd]}
 >
@@ -138,17 +125,17 @@ const faqJsonLd = {
         </div>
       </div>
       <aside class="hero-card" aria-label="Datos de referencia">
-        <span class="eyebrow">Referencia del listado aportado</span>
+        <span class="eyebrow">Referencia de Google Maps</span>
         <div class="rating">
           <strong>4,2</strong><span class="stars" aria-label="4,2 de 5">★★★★☆</span>
         </div>
-        <p>57.959 reseñas en la ficha facilitada. Las cifras de plataformas externas cambian con el tiempo.</p>
+        <p>58.116 reseñas en <a href={mapsShareUrl}>Google Maps</a> · consulta: 22 de octubre de 2026. Valoración externa que puede cambiar.</p>
         <dl>
           <div><dt>Origen urbano</dt><dd>1577</dd></div>
-          <div><dt>Acceso</dt><dd>Gratuito</dd></div>
-          <div><dt>Espacio abierto</dt><dd>24 horas</dd></div>
+          <div><dt>Acceso</dt><dd>Espacio público</dd></div>
+          <div><dt>Espacio abierto</dt><dd>24 h según Maps*</dd></div>
           <div><dt>Estadía sugerida</dt><dd>45–75 min</dd></div>
-        </dl>
+        </dl><p>*Ficha consultada el 22 de octubre de 2026; confirmá restricciones y condiciones del día. Los edificios cercanos tienen horarios propios.</p>
       </aside>
     </div>
   </section>
@@ -156,12 +143,14 @@ const faqJsonLd = {
   <div class="quick-strip" aria-label="Resumen para la visita">
     <div class="shell quick-grid">
       <div class="quick-item"><span>Dirección</span><strong>X5000 Córdoba</strong><small>Microcentro, Provincia de Córdoba</small></div>
-      <div class="quick-item"><span>Entrada</span><strong>Libre y gratuita</strong><small>Espacio público urbano</small></div>
+      <div class="quick-item"><span>Acceso</span><strong>Espacio público</strong><small>Confirmá condiciones del día</small></div>
       <div class="quick-item"><span>Mejor momento</span><strong>Mañana o atardecer</strong><small>Más amable en días calurosos</small></div>
-      <div class="quick-item"><span>Punto clave</span><strong>Kilómetro cero</strong><small>Referencia histórica vial provincial</small></div>
+      <div class="quick-item"><span>Punto clave</span><strong>Centro histórico</strong><small>Entre Catedral y Cabildo</small></div>
       <div class="quick-item"><span>Entorno</span><strong>Todo a pie</strong><small>Catedral, Cabildo y casco histórico</small></div>
     </div>
   </div>
+
+  <PhotoCredits />
 
   <section id="historia" class="section">
     <div class="shell">
@@ -170,7 +159,7 @@ const faqJsonLd = {
         <p class="section-intro">No es solo un jardín con un monumento. La Plaza San Martín permite leer casi cuatro siglos y medio de cambios en Córdoba: del damero colonial al paseo arbolado, de la Plaza Mayor al centro cívico contemporáneo.</p>
       </div>
 
-      <p class="entity-lead">Bienvenido a <strong>Plaza San Martín</strong>, el principal espacio público del centro de <strong>Córdoba</strong>, <strong>Córdoba</strong>, <strong>Argentina</strong>. Desde 1577 organiza la vida urbana frente a la Catedral y el Cabildo, y hoy funciona como punto de partida para recorrer el casco histórico.</p>
+      <p class="entity-lead">Esta guía trata de <strong>Plaza San Martín en Córdoba capital, Argentina</strong>. Desde 1577 organiza la vida urbana frente a la Catedral y el Cabildo, y hoy funciona como punto de partida para recorrer el casco histórico.</p>
       <p class="entity-crumb" aria-label="Jerarquía de ubicación">Plaza San Martín → Córdoba → Córdoba → Argentina</p>
 
       <div class="story-grid">
@@ -179,7 +168,7 @@ const faqJsonLd = {
           <p>Durante la etapa colonial la plaza era mucho más dura y abierta que el jardín actual. Funcionaba como mercado, lugar de llegada de carretas, escenario de procesiones, fiestas públicas, actos oficiales y otras prácticas propias de la vida de la época. Hacia fines del siglo XVIII, durante la gestión del Marqués de Sobremonte, comenzaron mejoras de iluminación y abastecimiento de agua.</p>
           <blockquote>Mirar la plaza es mirar el plano fundador de Córdoba: el vacío central organiza los poderes, las calles y la vida pública.</blockquote>
           <p>En el siglo XIX el lugar se transformó gradualmente en paseo ajardinado. En 1876 se instalaron fuentes de mármol de Carrara vinculadas al trabajo de José Allio. A comienzos del siglo XX el paisajista Carlos Thays intervino el espacio con una composición más estructurada y especies como tipas, lapachos y magnolias.</p>
-          <p>El 8 de julio de 1916 se inauguró el monumento ecuestre al General José de San Martín. La obra consolidó el nombre actual de la plaza y reorganizó su lectura simbólica. Desde 1937, además, un monolito sobre el borde de calle Buenos Aires identifica el <strong>Kilómetro Cero</strong>, referencia histórica para la red vial provincial y la numeración urbana.</p>
+          <p>El 8 de julio de 1916 se inauguró el monumento ecuestre al General José de San Martín. La fuente municipal describe cómo reemplazó la glorieta de música del centro de la plaza. Las transformaciones del paisaje continuaron en la década de 1950 bajo la dirección de Carlos David.</p>
         </div>
         <figure class="photo-card story-media">
           <img src={cathedralImage} alt="Catedral de Córdoba vista desde el entorno de Plaza San Martín al anochecer" loading="lazy" />
@@ -189,11 +178,9 @@ const faqJsonLd = {
 
       <div class="timeline" aria-label="Cronología de la plaza">
         <article class="timeline-item"><time>1577</time><h3>Plaza Mayor</h3><p>El trazado del damero fija el espacio central y los solares institucionales de su perímetro.</p></article>
-        <article class="timeline-item"><time>1786</time><h3>Primeras mejoras</h3><p>Se documentan intervenciones de iluminación y una fuente durante la administración de Sobremonte.</p></article>
         <article class="timeline-item"><time>1876</time><h3>Paseo ajardinado</h3><p>Las fuentes de mármol y la transformación paisajística acercan la plaza al paseo urbano moderno.</p></article>
         <article class="timeline-item"><time>1901</time><h3>Huella de Thays</h3><p>El paisajismo refuerza senderos, sombra y composición vegetal en torno al espacio cívico.</p></article>
         <article class="timeline-item"><time>1916</time><h3>Monumento a San Martín</h3><p>La figura ecuestre se inaugura y pasa a dominar el eje visual y simbólico de la plaza.</p></article>
-        <article class="timeline-item"><time>1937</time><h3>Kilómetro Cero</h3><p>El monolito de calle Buenos Aires marca una referencia histórica para rutas y numeración.</p></article>
         <article class="timeline-item"><time>1952</time><h3>Nueva lectura verde</h3><p>Intervenciones atribuidas a Carlos David continúan la evolución del paisaje y sus áreas verdes.</p></article>
         <article class="timeline-item"><time>Hoy</time><h3>Patrimonio vivo</h3><p>Conviven descanso, tránsito peatonal, expresiones culturales, actos cívicos y turismo urbano.</p></article>
       </div>
@@ -216,12 +203,8 @@ const faqJsonLd = {
         </div>
         <div class="look-side">
           <article class="visual">
-            <img src={plazaImage} alt="Senderos y vegetación de Plaza San Martín en Córdoba" loading="lazy" />
-            <div class="visual-copy"><span>02 · Paisaje</span><h3>La plaza bajo los árboles</h3><p>Las especies de porte alto crean un microclima de sombra y recuerdan la evolución del sitio desde explanada colonial a paseo verde.</p></div>
-          </article>
-          <article class="visual">
-            <img src={nightImage} alt="Plaza San Martín iluminada durante la noche" loading="lazy" />
-            <div class="visual-copy"><span>03 · Bordes urbanos</span><h3>La plaza cambia con la luz</h3><p>De día se leen mejor las fachadas; al anochecer, la iluminación realza la relación entre espacio cívico, monumento y arquitectura histórica.</p></div>
+            <img src={cathedralImage} alt="Catedral y árboles de Plaza San Martín al atardecer" loading="lazy" />
+            <div class="visual-copy"><span>02 · Entorno</span><h3>La Catedral desde la plaza</h3><p>El circuito municipal une la plaza con la Catedral, el Cabildo y el Pasaje Santa Catalina. Observá sus fachadas desde el perímetro y consultá por separado las condiciones de visita interior.</p></div>
           </article>
         </div>
       </div>
@@ -236,9 +219,9 @@ const faqJsonLd = {
       </div>
       <div class="plan-grid">
         <article class="info-card"><div class="icon">◷</div><h3>Mejor horario</h3><p>Mañana y última parte de la tarde para caminar con luz suave. En verano, priorizá sombra, hidratación y pausas; en invierno, el mediodía puede resultar más templado.</p></article>
-        <article class="info-card"><div class="icon">⌛</div><h3>Tiempo de visita</h3><p><strong>45–75 minutos</strong> para la plaza. Si la combinás con Catedral, Cabildo y Manzana Jesuítica, pensá el centro histórico como un recorrido de varias horas.</p></article>
-        <article class="info-card"><div class="icon">$</div><h3>Entrada y costos</h3><p>El acceso al espacio público es <strong>gratuito</strong>. Actividades culturales, visitas guiadas o interiores patrimoniales cercanos pueden tener reglas independientes.</p></article>
-        <article class="info-card"><div class="icon">♿</div><h3>Movilidad y accesibilidad</h3><p>El entorno central es predominantemente llano y peatonal. Verificá el estado de rampas, cruces y superficies si necesitás un itinerario accesible sin interrupciones.</p></article>
+        <article class="info-card"><div class="icon">⌛</div><h3>Tiempo de visita</h3><p>Como orientación de esta guía, <strong>45–75 minutos</strong> para la plaza. Si la combinás con Catedral, Cabildo y Pasaje Santa Catalina, pensá el centro histórico como un recorrido de varias horas.</p></article>
+        <article class="info-card"><div class="icon">$</div><h3>Entrada y costos</h3><p>Es un <strong>espacio público</strong>. Confirmá restricciones o condiciones de eventos del día; las actividades, visitas guiadas e interiores cercanos tienen reglas propias.</p></article>
+        <article class="info-card"><div class="icon">♿</div><h3>Movilidad y accesibilidad</h3><p>Verificá el estado actual de rampas, cruces y superficies si necesitás un itinerario accesible. Esta guía no dispone de una auditoría de accesibilidad del recorrido.</p></article>
         <article class="info-card"><div class="icon">☀</div><h3>Clima y confort</h3><p>Córdoba puede tener veranos calurosos y radiación intensa. Llevá agua y protección solar. En días de viento o tormenta, evitá permanecer bajo ramas grandes.</p></article>
         <article class="info-card"><div class="icon">◎</div><h3>Vida cívica</h3><p>Es un espacio de uso cotidiano y puede alojar actos, ferias, manifestaciones o actividades culturales. Si hay un evento, respetá desvíos y áreas operativas.</p></article>
       </div>
@@ -255,17 +238,17 @@ const faqJsonLd = {
 
       <h3 class="block-title">Por duración</h3>
       <div class="plan-grid">
-        <article class="info-card"><div class="icon">◷</div><h3>Media jornada (45–90 min)</h3><p>Monumento a San Martín, el centro geométrico y la lectura de fachadas de la Catedral y el Cabildo. Ideal como parada entre trámites o compras en el microcentro.</p></article>
-        <article class="info-card"><div class="icon">⌛</div><h3>Jornada completa (3–5 h)</h3><p>Sumá la Manzana Jesuítica, el Pasaje Santa Catalina y las peatonales vecinas. Considerá una pausa en un café del entorno y, si hay, una visita interior a edificios patrimoniales.</p></article>
+        <article class="info-card"><div class="icon">◷</div><h3>Paseo breve (45–90 min)</h3><p>Monumento a San Martín, el centro geométrico y la lectura de fachadas de la Catedral y el Cabildo. Ideal como parada entre trámites o compras en el microcentro.</p></article>
+        <article class="info-card"><div class="icon">⌛</div><h3>Recorrido ampliado (3–5 h)</h3><p>Sumá el Pasaje Santa Catalina y el circuito histórico municipal. Considerá una pausa en un café del entorno y, si hay, una visita interior a edificios patrimoniales.</p></article>
       </div>
 
       <h3 class="block-title">Por tipo de visitante</h3>
       <div class="plan-grid">
         <article class="info-card"><div class="icon">👨‍👩‍👧</div><h3>Familias con niños</h3><p>El espacio abierto permite descanso y juego supervisado. Priorizá sombra, hidratación y bancos; evitá las horas de mayor calor en verano.</p></article>
         <article class="info-card"><div class="icon">📷</div><h3>Fotografía y naturaleza</h3><p>Luz suave a primera hora y al atardecer; arboledas de porte (tipas, lapachos, magnolias) y relieves del monumento. De noche, la iluminación resalta el eje cívico.</p></article>
-        <article class="info-card"><div class="icon">♿</div><h3>Bajo esfuerzo y accesible</h3><p>El microcentro es mayormente plano y peatonal. Hacé un circuito corto bordeando la plaza, con pausas en bancas y cruces señalizados; verificá rampas si necesitás un itinerario sin escalones.</p></article>
+        <article class="info-card"><div class="icon">♿</div><h3>Recorrido con pausas</h3><p>Elegí un tramo corto del perímetro y comprobá antes de salir el estado de cruces, rampas y superficies. No contamos con una auditoría actual de accesibilidad ni garantizamos un recorrido sin escalones.</p></article>
       </div>
-      <div class="note"><strong>Idea de recorrido:</strong> empezá en el centro rodeando el monumento, continuá por el perímetro mirando hacia afuera (Catedral y Cabildo) y cerrá hacia las peatonales o la Manzana Jesuítica según el tiempo disponible.</div>
+      <div class="note"><strong>Idea de recorrido:</strong> empezá en el centro rodeando el monumento, continuá por el perímetro mirando hacia afuera (Catedral y Cabildo) y cerrá hacia las peatonales o el Pasaje Santa Catalina según el tiempo disponible.</div>
     </div>
   </section>
 
@@ -277,11 +260,11 @@ const faqJsonLd = {
         <p>Plaza San Martín está en el microcentro y funciona mejor como destino peatonal. Las líneas, tarifas y frecuencias cambian; por eso esta guía explica la lógica del viaje y remite a fuentes oficiales para el dato operativo del día.</p>
       </div>
       <div class="route-list">
-        <article class="route"><div class="route-num">A</div><div><h3>Desde el aeropuerto</h3><p><strong>Aeropuerto Internacional Ingeniero Ambrosio Taravella (COR).</strong> Está a unos 14 km del microcentro. El servicio de traslado aeroportuario conecta con la Terminal de Ómnibus y ejes céntricos; desde ahí la plaza queda a pocas cuadras a pie o un breve tramo en colectivo o taxi. También operan taxis y remis habilitados en la sala de arribos: conviene confirmar la tarifa antes de subir. Revisá recorrido y frecuencia vigente antes de viajar.</p></div></article>
-        <article class="route"><div class="route-num">B</div><div><h3>Desde la Terminal de Ómnibus</h3><p>Las terminales se ubican al sudeste del centro. Para equipaje liviano, la plaza queda a una caminata urbana razonable; con valijas o movilidad reducida, taxi, remis o colectivo urbano suelen ser opciones más cómodas.</p></div></article>
-        <article class="route"><div class="route-num">C</div><div><h3>Colectivo urbano</h3><p>Varias líneas troncales y locales atraviesan o bordean el microcentro, y varias tienen paradas a menos de 5 cuadras de la plaza. Como la red de Córdoba puede modificar denominaciones y recorridos, evitamos congelar números de línea: consultá el planificador municipal o la app de transporte urbano para elegir la parada y la combinación más convenientes del día.</p></div></article>
-        <article class="route"><div class="route-num">D</div><div><h3>Taxi y remis</h3><p>Pedí como destino “Plaza San Martín, Centro”. El recorrido desde la mayoría de los puntos de la ciudad es corto; en hora pico o con cortes, el descenso puede hacerse en una calle perimetral a pocos pasos de la plaza. Utilizá servicios habilitados y comprobá la tarifa o modalidad vigente antes de iniciar el viaje.</p></div></article>
-        <article class="route"><div class="route-num">E</div><div><h3>Auto particular</h3><p>El microcentro tiene calles peatonales, restricciones y alta demanda. Lo más práctico suele ser estacionar en el perímetro y completar caminando. El sistema municipal <strong>SEMM</strong> regula espacios medidos en vía pública; también existen playas privadas sin recomendación comercial específica.</p></div></article>
+        <article class="route"><div class="route-num">A</div><div><h3>Desde el aeropuerto</h3><p>Buscá el traslado vigente desde tu aeropuerto o alojamiento con destino “Plaza San Martín, Córdoba capital”. Confirmá recorrido, parada de descenso, equipaje, tarifa y disponibilidad con el operador antes de viajar; esta guía no verifica un servicio aeroportuario concreto.</p></div></article>
+        <article class="route"><div class="route-num">B</div><div><h3>Desde la Terminal de Ómnibus</h3><p>Usá el mapa para planificar el tramo desde tu terminal de llegada hasta Plaza San Martín. Evaluá el recorrido a pie según equipaje, clima y movilidad; comprobá las alternativas de transporte del día.</p></div></article>
+        <article class="route"><div class="route-num">C</div><div><h3>Colectivo urbano</h3><p>Consultá el recorrido vigente en el servicio de transporte local para tu punto de partida y elegí una parada próxima al perímetro de la plaza. Verificá frecuencia, tarifa y desvíos antes de salir; no se garantiza aquí ninguna línea o parada.</p></div></article>
+        <article class="route"><div class="route-num">D</div><div><h3>Taxi y remis</h3><p>Indicá como destino “Plaza San Martín, Córdoba capital” y acordá un descenso permitido cerca del perímetro. Comprobá la modalidad y tarifa del servicio antes de iniciar el viaje.</p></div></article>
+        <article class="route"><div class="route-num">E</div><div><h3>Auto particular</h3><p>Revisá las restricciones y señalización del centro antes de entrar. Buscá estacionamiento autorizado y confirmá su ubicación, horario y tarifa; esta guía no ofrece estacionamiento ni garantiza disponibilidad.</p></div></article>
         <article class="route"><div class="route-num">F</div><div><h3>Bicicleta y a pie</h3><p>La plaza es un nodo natural para recorrer el centro caminando. En bicicleta, reducí la velocidad en áreas peatonales y asegurala solo en sitios permitidos. Para un circuito patrimonial, caminar ofrece la mejor lectura de fachadas y pasajes.</p></div></article>
       </div>
     </div>
@@ -294,14 +277,9 @@ const faqJsonLd = {
         <p class="section-intro">El sitio está en pleno centro urbano, pero no todos los servicios se encuentran dentro de la plaza. Indicamos categorías y criterios, sin promocionar comercios concretos.</p>
       </div>
       <div class="service-grid">
-        <article class="service"><div class="service-icon">🚻</div><h3>Baños</h3><p>No dependas de un sanitario permanente dentro de la plaza. Considerá equipamientos culturales, públicos o gastronómicos cercanos durante sus horarios de atención.</p></article>
-        <article class="service"><div class="service-icon">🅿</div><h3>Estacionamiento</h3><p>No hay estacionamiento propio. Hay sistema medido en vía pública y playas privadas en el centro; verificá restricciones, accesibilidad y horario antes de ingresar.</p></article>
-        <article class="service"><div class="service-icon">☕</div><h3>Comida y bebida</h3><p>En pocas cuadras hay cafés, panaderías, cocina argentina, opciones rápidas y alternativas vegetarianas. Elegí según higiene visible, necesidades dietarias y presupuesto.</p></article>
-        <article class="service"><div class="service-icon">🛏</div><h3>Alojamiento</h3><p>El centro y barrios próximos reúnen hoteles urbanos, alojamientos boutique, hosterías y hostels. Priorizá acceso al transporte, recepción segura y políticas claras.</p></article>
-        <article class="service"><div class="service-icon">🛒</div><h3>Supermercados y compras</h3><p>Kioscos, almacenes, farmacias y supermercados están distribuidos por el microcentro. Para agua o elementos básicos no es necesario desplazarse a zonas comerciales periféricas.</p></article>
-        <article class="service"><div class="service-icon">⛽</div><h3>Combustible</h3><p>Las estaciones de servicio no son un servicio propio de la plaza y conviene buscarlas sobre corredores de acceso al centro, evitando desvíos innecesarios por calles peatonales.</p></article>
-        <article class="service"><div class="service-icon">⚡</div><h3>Carga eléctrica</h3><p>Si viajás en vehículo eléctrico, planificá la carga antes de entrar al microcentro. Verificá en mapas de carga actualizados el conector, potencia, acceso y estado operativo.</p></article>
-        <article class="service"><div class="service-icon">ⓘ</div><h3>Orientación turística</h3><p>El entorno del Cabildo y las dependencias de turismo del centro puede ofrecer información pública. Confirmá horarios oficiales si necesitás atención presencial.</p></article>
+        <article class="service"><h3>Baños y agua</h3><p>No contamos con una verificación actual de sanitarios o puntos de agua disponibles. Confirmá esos servicios antes del paseo y llevá el agua que necesites.</p></article>
+        <article class="service"><h3>Acceso a interiores</h3><p>Catedral, Cabildo y otros edificios tienen horarios y condiciones propios. Consultalos directamente; la referencia de apertura de la plaza no se extiende a sus interiores.</p></article>
+        <article class="service"><h3>Eventos de hoy</h3><p>Esta guía no ofrece una agenda en tiempo real. Consultá la <a href="https://turismo.cordoba.gob.ar/">información turística municipal</a> y la señalización local para actividades, obras y desvíos.</p></article>
       </div>
     </div>
   </section>
@@ -316,11 +294,8 @@ const faqJsonLd = {
       </div>
       <div class="nearby-grid">
         <article class="nearby-card"><div><span class="distance">Borde de la plaza</span><h3>Catedral de Córdoba</h3><p>Uno de los grandes edificios históricos de la ciudad, con una larga construcción que combina lenguajes renacentistas, barrocos y neoclásicos.</p></div><a href="https://turismo.cordoba.gob.ar/" rel="noreferrer">Consultar información turística oficial →</a></article>
-        <article class="nearby-card"><div><span class="distance">Borde de la plaza</span><h3>Cabildo Histórico</h3><p>Antigua sede del gobierno colonial y pieza clave para comprender cómo se organizó el poder civil frente a la Plaza Mayor.</p></div><a href="https://cultura.cordoba.gob.ar/" rel="noreferrer">Consultar agenda cultural pública →</a></article>
+        <article class="nearby-card"><div><span class="distance">Borde de la plaza</span><h3>Cabildo Histórico</h3><p>Antigua sede del gobierno colonial y pieza clave para comprender cómo se organizó el poder civil frente a la Plaza Mayor.</p></div><a href="https://turismo.cordoba.gob.ar/circuito-centro-historico/" rel="noreferrer">Consultar circuito histórico municipal →</a></article>
         <article class="nearby-card"><div><span class="distance">A pocos pasos</span><h3>Pasaje Santa Catalina</h3><p>Pasaje peatonal que enlaza el entorno de la Catedral y el Cabildo, útil para observar escalas y perspectivas del casco histórico.</p></div><a href="#mapa">Ubicar en el contexto del centro →</a></article>
-        <article class="nearby-card"><div><span class="distance">Caminata breve</span><h3>Oratorio del Obispo Mercadillo</h3><p>Una pequeña pieza patrimonial que ayuda a reconstruir la Córdoba colonial y religiosa próxima a la plaza.</p></div><a href="https://turismo.cordoba.gob.ar/" rel="noreferrer">Ver recursos patrimoniales →</a></article>
-        <article class="nearby-card"><div><span class="distance">Caminata breve</span><h3>Manzana Jesuítica</h3><p>Conjunto histórico ligado a la presencia jesuita y a la Universidad Nacional de Córdoba, fundamental para el relato cultural de la ciudad.</p></div><a href="https://whc.unesco.org/" rel="noreferrer">Consultar patrimonio mundial →</a></article>
-        <article class="nearby-card"><div><span class="distance">Extensión del paseo</span><h3>Peatonales del centro</h3><p>La red peatonal permite continuar hacia comercio, arquitectura y vida cotidiana sin necesidad de volver al auto entre cada parada.</p></div><a href="#como-llegar">Revisar movilidad del centro →</a></article>
       </div>
     </div>
   </section>
@@ -328,22 +303,10 @@ const faqJsonLd = {
   <section id="estaciones" class="section section-dark">
     <div class="shell">
       <div class="section-head">
-        <div><span class="section-kicker">Mejor momento</span><h2>Estrategia de visita por estación</h2></div>
-        <p class="section-intro">Córdoba tiene marcada amplitud térmica: días cálidos y noches frescas, con veranos húmedos y tormentas de tarde ocasionales. Los valores son tendencias típicas, no pronósticos; confirmá el clima del día en el módulo anterior.</p>
+        <div><span class="section-kicker">Mejor momento</span><h2>Preparar la visita según el tiempo</h2></div>
+        <p class="section-intro">Adaptá el paseo al pronóstico y a las alertas del día. Estas sugerencias son orientaciones de preparación, no garantías de condiciones para una estación del año.</p>
       </div>
-      <div class="table-wrap">
-        <table class="season-table">
-          <thead>
-            <tr><th>Estación</th><th>Qué esperar</th><th>Recomendación</th><th>Qué llevar</th></tr>
-          </thead>
-          <tbody>
-            <tr><th scope="row">Verano</th><td>Tardes cálidas, alta humedad y tormentas de tarde. Mucha luz.</td><td>Salidas temprano; aprovechá la sombra de las arboledas y espacios interiores cercanos en la hora central.</td><td>Sombrero, protector solar, agua y ropa ligera.</td></tr>
-            <tr><th scope="row">Otoño</th><td>Temperaturas amables y buena luz. Menos lluvia que en verano.</td><td>Una de las mejores épocas para caminar el casco histórico sin prisa.</td><td>Una prenda liviana para la tarde y calzado cómodo.</td></tr>
-            <tr><th scope="row">Invierno</th><td>Días soleados pero frescos; noches frías. Baja humedad.</td><td>El mediodía y las primeras horas de la tarde son los momentos más templados para estar al aire libre.</td><td>Campera abrigada y, si hace viento, una bufanda.</td></tr>
-            <tr><th scope="row">Primavera</th><td>Clima variable y agradable; floración en las arboledas.</td><td>Excelente para fotos de la vegetación y recorridos largos a pie.</td><td>Capa intermedia y paraguas por lluvias aisladas.</td></tr>
-          </tbody>
-        </table>
-      </div>
+      <WeatherPlanning />
       <a class="read-more" href="/clima/">Ver clima y pronóstico completo</a>
     </div>
   </section>
@@ -354,66 +317,19 @@ const faqJsonLd = {
         <div><span class="section-kicker">Ubicación</span><h2>Plaza San Martín en el centro de Córdoba</h2></div>
         <p class="section-intro">El mapa de Google se carga solo cuando lo solicitás, para evitar conexiones de terceros antes de una acción explícita. El contenido está configurado en español y región Argentina.</p>
       </div>
-      <div class="map-wrap" data-map-root>
-        <div class="map-consent" data-map-consent>
-          <div class="map-consent-inner">
-            <h3>Cargar mapa interactivo</h3>
-            <p>Google Maps es un servicio de terceros y puede utilizar cookies o tecnologías similares. Al cargarlo, aceptás esa conexión para esta función.</p>
-            <button class="button button-light" type="button" data-load-map>Cargar Google Maps</button>
-            <p><a href="/privacidad/">Cómo tratamos los servicios de terceros</a></p>
-          </div>
-        </div>
-        <template data-map-template>
-          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6060.553251004364!2d-64.18613682257966!3d-31.416748196272106!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94329902eb0b2faf%3A0x4382bb478dc6e982!2sPlaza%20San%20Martin!5e1!3m2!1ses!2sar!4v1787707562117!5m2!1ses!2sar" width="600" height="450" style="border:0;" allowfullscreen loading="lazy" referrerpolicy="strict-origin-when-cross-origin" title="Mapa de Plaza San Martín, Córdoba"></iframe>
-        </template>
-      </div>
-      <p class="map-caption">Dirección de referencia: X5000 Córdoba, Provincia de Córdoba, Argentina. El mapa externo puede mostrar información dinámica.</p>
-      <a class="read-more" href="/ubicacion/">Ver ubicación y transporte</a>
+      <MapSection />
     </div>
-    <script is:inline>
-      (() => {
-        const root = document.querySelector('[data-map-root]');
-        if (!root) return;
-        const consent = root.querySelector('[data-map-consent]');
-        const template = root.querySelector('[data-map-template]');
-        const load = () => {
-          if (root.querySelector('iframe') || !template) return;
-          root.appendChild(template.content.cloneNode(true));
-          consent?.remove();
-        };
-        const preferences = window.psmConsent?.read?.();
-        if (preferences?.preferences) load();
-        root.querySelector('[data-load-map]')?.addEventListener('click', () => {
-          const current = window.psmConsent?.read?.() || {};
-          window.psmConsent?.save?.({ ...current, preferences: true });
-          load();
-        });
-      })();
-    </script>
   </section>
 
   <section id="preguntas" class="section section-sand">
-    <div class="shell">
-      <div class="section-head">
-        <div><span class="section-kicker">Preguntas frecuentes</span><h2>Antes de ir</h2></div>
-        <p class="section-intro">Respuestas breves para organizar una visita responsable. Los datos operativos de transporte, eventos y edificios próximos deben confirmarse en fuentes oficiales.</p>
-      </div>
-      <div class="faq-list">
-        {faq.map((item) => (
-          <details class="faq">
-            <summary>{item.q}</summary>
-            <p>{item.a}</p>
-          </details>
-        ))}
-      </div>
-    </div>
+    <div class="shell"><div class="section-head"><div><span class="section-kicker">Antes del paseo</span><h2>Preguntas frecuentes</h2></div><p class="section-intro">Ubicación, acceso y preparación. Los datos de terceros son referencias fechadas, no garantías de operación.</p></div><div class="faq-list">{faq.map((item) => (<details class="faq"><summary>{item.q}</summary><p>{item.a}</p></details>))}</div></div>
   </section>
 
   <section id="responsabilidad" class="section">
     <div class="shell">
       <div class="section-head">
         <div><span class="section-kicker">Guía responsable</span><h2>Ciencia, patrimonio y responsabilidad del visitante</h2></div>
-        <p class="section-intro">Esta es una guía cultural independiente y sin fines de lucro. Su objetivo es ayudarte a comprender y recorrer el espacio con información verificable, no promover comercios.</p>
+        <p class="section-intro">Esta es una guía cultural independiente. Su objetivo es ayudarte a comprender y recorrer el espacio con información verificable, no promover comercios.</p>
       </div>
       <div class="plan-grid">
         <article class="info-card"><div class="icon">🏛️</div><h3>Patrimonio vivo</h3><p>La plaza reúne casi 450 años de historia urbana. Respetá el monumento y las fachadas: no se sube a las esculturas ni se marca el patrimonio.</p></article>
@@ -421,7 +337,7 @@ const faqJsonLd = {
         <article class="info-card"><div class="icon">🌳</div><h3>Cuidado del entorno</h3><p>Depositá los residuos en los recipientes adecuados y cuidá las arboledas. Pequeños gestos mantienen el paseo agradable para todos.</p></article>
         <article class="info-card"><div class="icon">☀️</div><h3>Salud y clima</h3><p>Hidratate, usá protección solar y evitá permanecer bajo ramas grandes con viento o tormenta. Consultá el bloque de clima antes de salir.</p></article>
         <article class="info-card"><div class="icon">📚</div><h3>Fuentes y método</h3><p>Las afirmaciones patrimoniales se contrastan con material público de la Municipalidad y la provincia. Las operativas (transporte, horarios) pueden cambiar.</p></article>
-        <article class="info-card"><div class="icon">🤝</div><h3>Sin fines de lucro</h3><p>No pertenecemos a organismos oficiales ni a comercios. No hay recomendaciones pagadas: solo categorías de servicios para orientarte.</p></article>
+        <article class="info-card"><div class="icon">🤝</div><h3>Guía independiente</h3><p>No representamos a los organismos públicos citados. Consultá las fuentes oficiales para confirmar información y condiciones de visita.</p></article>
       </div>
     </div>
   </section>
@@ -436,8 +352,8 @@ const faqJsonLd = {
         <article class="source-box">
           <h3>Fuentes institucionales principales</h3>
           <ul>
-            <li><a href="https://turismo.cordoba.gob.ar/plaza-san-martin/" rel="noreferrer">Turismo de la Municipalidad de Córdoba</a>: historia y evolución de la Plaza San Martín.</li>
-            <li><a href="https://cordoba.gob.ar/" rel="noreferrer">Municipalidad de Córdoba</a>: espacio público, movilidad y servicios urbanos.</li>
+            <li><a href="https://turismo.cordoba.gob.ar/circuito-centro-historico/" rel="noreferrer">Turismo de la Municipalidad de Córdoba</a>: historia y evolución de la Plaza San Martín.</li>
+            <li><a href="https://respira.cordoba.gob.ar/portfolio/plaza-san-martin/" rel="noreferrer">Respira Córdoba, Municipalidad de Córdoba</a>: perímetro, paisajismo y monumento. Consulta: 22 de octubre de 2026.</li>
             <li><a href="https://www.cordobaturismo.gov.ar/" rel="noreferrer">Agencia Córdoba Turismo</a>: contexto turístico provincial.</li>
             <li><a href="https://www.argentina.gob.ar/" rel="noreferrer">Argentina.gob.ar</a>: marco nacional de turismo y organismos públicos.</li>
           </ul>
@@ -445,7 +361,7 @@ const faqJsonLd = {
         <article class="source-box">
           <h3>Criterio de actualización</h3>
           <p>La historia, el trazado y los hitos monumentales se apoyan en fuentes patrimoniales públicas. Horarios de espacios abiertos, rutas de transporte, estacionamiento y servicios se redactan con advertencias cuando su operación puede variar.</p>
-          <p>Las fotografías se usan con atribución y licencia verificable. No se aceptan pagos por aparecer en las secciones de gastronomía, alojamiento, compras o movilidad.</p>
+          <p>Las fotografías se usan con atribución y licencia verificable. La guía no gestiona reservas o visitas.</p>
         </article>
       </div>
     </div>
