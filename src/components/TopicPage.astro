@@ -1,0 +1,156 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SECTION_LABELS, getTopic, type Topic } from '../data/topics';
+
+interface Props {
+  topic: Topic;
+}
+const { topic } = Astro.props;
+
+const base = Astro.site ?? new URL('https://plazasanmartinarg.com/');
+const sectionPath = `/${topic.section}/`;
+const sectionLabel = SECTION_LABELS[topic.section];
+
+// Breadcrumb + FAQ structured data (no aggregateRating: this is an independent guide).
+const breadcrumbLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Inicio', item: new URL('/', base).href },
+    { '@type': 'ListItem', position: 2, name: sectionLabel, item: new URL(sectionPath, base).href },
+    { '@type': 'ListItem', position: 3, name: topic.h1, item: Astro.url.href },
+  ],
+};
+
+const faqLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: topic.faqs.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
+
+// Resolve related links; 'clima' maps to the existing /clima/ page.
+function relatedEntry(slug: string) {
+  if (slug === 'clima') {
+    return { title: 'Clima en Córdoba', path: '/clima/', lead: 'Pronóstico y mejor época para visitar la plaza.' };
+  }
+  const t = getTopic(slug);
+  if (!t) return null;
+  return { title: t.h1, path: `/${t.section}/${t.slug}/`, lead: t.lead };
+}
+const relatedCards = topic.related.map(relatedEntry).filter(Boolean) as {
+  title: string;
+  path: string;
+  lead: string;
+}[];
+---
+
+<BaseLayout
+  title={topic.metaTitle}
+  description={topic.metaDescription}
+  image={topic.image}
+  structuredData={[breadcrumbLd, faqLd]}
+>
+  <div class="shell">
+    <nav class="breadcrumb" aria-label="Ubicación en el sitio">
+      <a href="/">Inicio</a> <span aria-hidden="true">/</span>
+      <a href={sectionPath}>{sectionLabel}</a> <span aria-hidden="true">/</span>
+      <span>{topic.h1}</span>
+    </nav>
+
+    <header class="subpage-hero">
+      <span class="eyebrow">{topic.kicker}</span>
+      <h1>{topic.h1}</h1>
+      <p class="lede">{topic.lead}</p>
+    </header>
+  </div>
+
+  <section class="section">
+    <div class="shell">
+      {
+        topic.image && (
+          <figure class="photo-card topic-figure">
+            <img src={topic.image} alt={`Referencia de ${topic.h1}`} loading="lazy" width="800" height="600" />
+            <figcaption>
+              Imagen de referencia. Créditos y licencias en la <a href="/">página principal</a>.
+            </figcaption>
+          </figure>
+        )
+      }
+
+      {
+        topic.sections.map((s) => (
+          <div class="topic-section">
+            <h2 class="topic-h2">{s.heading}</h2>
+            {s.paragraphs?.map((p) => <p>{p}</p>)}
+            {s.bullets && (
+              <ul class="topic-list">
+                {s.bullets.map((b) => (
+                  <li>{b}</li>
+                ))}
+              </ul>
+            )}
+            {s.callout && <p class="note">{s.callout}</p>}
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <section id="preguntas" class="section section-sand">
+    <div class="shell">
+      <div class="section-head">
+        <div>
+          <span class="section-kicker">Preguntas frecuentes</span>
+          <h2>Lo que suele preguntarse</h2>
+        </div>
+      </div>
+      <div class="faq-list">
+        {
+          topic.faqs.map((f) => (
+            <details class="faq" name={`faq-${topic.slug}`}>
+              <summary>{f.q}</summary>
+              <div class="faq-body">
+                <p>{f.a}</p>
+              </div>
+            </details>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  {
+    relatedCards.length > 0 && (
+      <section class="related">
+        <div class="shell">
+          <h2 class="block-title">Seguir explorando</h2>
+          <div class="related-grid">
+            {relatedCards.map((c) => (
+              <a class="related-card" href={c.path}>
+                <h3>{c.title}</h3>
+                <p>{c.lead}</p>
+                <span class="related-more">Leer más →</span>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  <section class="section section-tight">
+    <div class="shell">
+      <p class="topic-disclaimer">
+        Guía independiente y sin fines comerciales sobre Plaza San Martín y el centro histórico de
+        Córdoba. No somos un sitio oficial ni representamos a la Municipalidad. La información
+        histórica se basa en fuentes públicas (Municipalidad de Córdoba, Agencia Córdoba Turismo y
+        Universidad Nacional de Córdoba). Los datos operativos (transporte, horarios, precios) son
+        orientativos; confirmalos con las fuentes oficiales. Actualizado: {topic.updated}.
+      </p>
+    </div>
+  </section>
+</BaseLayout>

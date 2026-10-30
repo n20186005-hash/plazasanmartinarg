@@ -1,0 +1,44 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SECTION_LABELS, getTopicsBySection, type SectionKey } from '../data/topics';
+
+interface Props {
+  section: SectionKey;
+  title: string;
+  description: string;
+  intro: string;
+}
+const { section, title, description, intro } = Astro.props;
+const topics = getTopicsBySection(section);
+const label = SECTION_LABELS[section];
+---
+
+<BaseLayout title={title} description={description}>
+  <div class="shell">
+    <nav class="breadcrumb" aria-label="Ubicación en el sitio">
+      <a href="/">Inicio</a> <span aria-hidden="true">/</span> <span>{label}</span>
+    </nav>
+    <header class="subpage-hero">
+      <span class="eyebrow">{label}</span>
+      <h1>{title}</h1>
+      <p class="lede">{intro}</p>
+    </header>
+  </div>
+
+  <section class="section">
+    <div class="shell">
+      <div class="related-grid">
+        {
+          topics.map((t) => (
+            <a class="related-card" href={`/${section}/${t.slug}/`}>
+              <span class="related-tag">{t.priority}</span>
+              <h3>{t.h1}</h3>
+              <p>{t.lead}</p>
+              <span class="related-more">Leer más →</span>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</BaseLayout>

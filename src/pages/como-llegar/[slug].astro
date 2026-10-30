@@ -1,0 +1,13 @@
+---
+import TopicPage from '../../components/TopicPage.astro';
+import { getTopicsBySection } from '../../data/topics';
+
+export function getStaticPaths() {
+  return getTopicsBySection('como-llegar').map((t) => ({
+    params: { slug: t.slug },
+    props: { topic: t },
+  }));
+}
+const { topic } = Astro.props;
+---
+<TopicPage topic={topic} />

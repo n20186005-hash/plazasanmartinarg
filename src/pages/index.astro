@@ -31,7 +31,7 @@ const faq = [
   },
   {
     q: '¿La plaza tiene horario de cierre?',
-    a: 'La ficha de Google Maps consultada el 22 de octubre de 2026 indica apertura las 24 horas. Es una referencia de terceros, no una garantía de acceso: obras, actos o restricciones pueden modificarlo. Catedral, Cabildo y otros interiores tienen condiciones propias.'
+    a: 'La ficha de Google Maps consultada el 30 de octubre de 2026 indica apertura las 24 horas. Es una referencia de terceros, no una garantía de acceso: obras, actos o restricciones pueden modificarlo. Catedral, Cabildo y otros interiores tienen condiciones propias.'
   },
   {
     q: '¿Cuánto tiempo conviene dedicarle?',
@@ -63,7 +63,7 @@ const faq = [
   },
   {
     q: '¿La información de valoración de Google puede cambiar?',
-    a: 'Sí. La ficha de Google Maps mostraba 4,2 sobre 5 y 58.116 reseñas al comprobarla el 22 de octubre de 2026. Es una valoración de esa plataforma, no una puntuación recogida por esta guía, y puede cambiar.'
+    a: 'Sí. La ficha de Google Maps mostraba 4,2 sobre 5 y 58.150 reseñas al comprobarla el 30 de octubre de 2026. Es una valoración de esa plataforma, no una puntuación recogida por esta guía, y puede cambiar.'
   }
 ];
 
@@ -90,7 +90,7 @@ const attractionJsonLd = {
     longitude: -64.18402
   },
   hasMap: mapsShareUrl,
-  sameAs: [mapsShareUrl, govtTourismUrl],
+  sameAs: [mapsShareUrl],
 
 };
 
@@ -105,8 +105,8 @@ const faqJsonLd = {
 };
 ---
 <BaseLayout
-  title={SITE_NAME}
-  description="Plaza San Martín en Córdoba capital, Argentina: ubicación entre Catedral y Cabildo, mapa, historia, acceso y pronóstico para organizar tu paseo."
+  title="Plaza San Martín Córdoba Capital: qué ver, mapa y cómo llegar"
+  description="Plaza San Martín en Córdoba Capital, Argentina: qué ver, mapa, historia, cómo llegar y recorridos a pie por el centro histórico (Catedral, Cabildo, Pasaje Santa Catalina)."
   image={heroImage}
   structuredData={[attractionJsonLd, faqJsonLd]}
 >
@@ -129,14 +129,47 @@ const faqJsonLd = {
         <div class="rating">
           <strong>4,2</strong><span class="stars" aria-label="4,2 de 5">★★★★☆</span>
         </div>
-        <p>58.116 reseñas en <a href={mapsShareUrl}>Google Maps</a> · consulta: 22 de octubre de 2026. Valoración externa que puede cambiar.</p>
+        <p>58.150 reseñas en <a href={mapsShareUrl}>Google Maps</a> · consulta: 30 de octubre de 2026. Valoración externa que puede cambiar.</p>
         <dl>
           <div><dt>Origen urbano</dt><dd>1577</dd></div>
           <div><dt>Acceso</dt><dd>Espacio público</dd></div>
           <div><dt>Espacio abierto</dt><dd>24 h según Maps*</dd></div>
           <div><dt>Estadía sugerida</dt><dd>45–75 min</dd></div>
-        </dl><p>*Ficha consultada el 22 de octubre de 2026; confirmá restricciones y condiciones del día. Los edificios cercanos tienen horarios propios.</p>
+        </dl><p>*Ficha consultada el 30 de octubre de 2026; confirmá restricciones y condiciones del día. Los edificios cercanos tienen horarios propios.</p>
       </aside>
+    </div>
+  </section>
+
+  <section class="section section-sand" aria-label="Empezá por aquí">
+    <div class="shell">
+      <div class="section-head">
+        <div>
+          <span class="section-kicker">Empezá por aquí</span>
+          <h2>Cuatro formas de aprovechar la plaza</h2>
+        </div>
+      </div>
+      <div class="related-grid">
+        <a class="related-card" href="/historia/plaza-mayor-1577/">
+          <h3>Qué ver en la plaza</h3>
+          <p>El monumento, la historia desde 1577 y las fachadas de la Catedral y el Cabildo.</p>
+          <span class="related-more">Ver la plaza →</span>
+        </a>
+        <a class="related-card" href="/como-llegar/desde-aeropuerto/">
+          <h3>Cómo llegar</h3>
+          <p>Desde el aeropuerto, la terminal y en colectivo, y dónde estacionar cerca.</p>
+          <span class="related-more">Cómo llegar →</span>
+        </a>
+        <a class="related-card" href="/cerca/catedral-de-cordoba/">
+          <h3>Qué visitar cerca</h3>
+          <p>Catedral, Cabildo, Pasaje Santa Catalina y la Manzana Jesuítica, todo a pie.</p>
+          <span class="related-more">Alrededores →</span>
+        </a>
+        <a class="related-card" href="/rutas/centro-historico-1-hora/">
+          <h3>Recorridos a pie</h3>
+          <p>De 1 hora a un día completo por el centro histórico, según tu tiempo.</p>
+          <span class="related-more">Ver recorridos →</span>
+        </a>
+      </div>
     </div>
   </section>
 
@@ -353,7 +386,7 @@ const faqJsonLd = {
           <h3>Fuentes institucionales principales</h3>
           <ul>
             <li><a href="https://turismo.cordoba.gob.ar/circuito-centro-historico/" rel="noreferrer">Turismo de la Municipalidad de Córdoba</a>: historia y evolución de la Plaza San Martín.</li>
-            <li><a href="https://respira.cordoba.gob.ar/portfolio/plaza-san-martin/" rel="noreferrer">Respira Córdoba, Municipalidad de Córdoba</a>: perímetro, paisajismo y monumento. Consulta: 22 de octubre de 2026.</li>
+            <li><a href="https://respira.cordoba.gob.ar/portfolio/plaza-san-martin/" rel="noreferrer">Respira Córdoba, Municipalidad de Córdoba</a>: perímetro, paisajismo y monumento. Consulta: 30 de octubre de 2026.</li>
             <li><a href="https://www.cordobaturismo.gov.ar/" rel="noreferrer">Agencia Córdoba Turismo</a>: contexto turístico provincial.</li>
             <li><a href="https://www.argentina.gob.ar/" rel="noreferrer">Argentina.gob.ar</a>: marco nacional de turismo y organismos públicos.</li>
           </ul>
